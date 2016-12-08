@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "Audio.h"
+#include "Header.h"
 
 class Application2D : public aie::Application {
 public:
@@ -16,6 +17,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
+
+
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;
@@ -24,6 +27,25 @@ protected:
 	aie::Font*			m_font;
 	aie::Audio*			m_audio;
 
+
 	float m_cameraX, m_cameraY;
 	float m_timer;
 };
+
+
+
+class Player // Class called player to take input from user.
+{
+private:
+
+public:
+	Player() {};
+	
+	Vector2 playerPosition = Vector2 (0.00f, 0.00f);
+
+
+};
+
+
+
+

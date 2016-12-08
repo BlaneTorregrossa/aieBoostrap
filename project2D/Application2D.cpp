@@ -22,9 +22,13 @@ bool Application2D::startup() {
 
 	m_audio = new aie::Audio("./audio/powerup.wav");
 
+
+	
+	
 	m_cameraX = 0;
 	m_cameraY = 0;
 	m_timer = 0;
+	
 
 	return true;
 }
@@ -37,6 +41,8 @@ void Application2D::shutdown() {
 	delete m_shipTexture;
 	delete m_2dRenderer;
 }
+
+Player player1;
 
 void Application2D::update(float deltaTime) {
 
@@ -58,6 +64,23 @@ void Application2D::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 		m_cameraX += 500.0f * deltaTime;
 
+	// Y axis
+	if (input->isKeyDown(aie::INPUT_KEY_W))
+		player1.playerPosition += Vector2(0, 500.0f * deltaTime);
+
+	// y axis
+	if (input->isKeyDown(aie::INPUT_KEY_S))
+		player1.playerPosition -= Vector2(0, 500.0f * deltaTime);
+
+	// x axis
+	if (input->isKeyDown(aie::INPUT_KEY_A))
+		player1.playerPosition -= Vector2(500.0f, 0 * deltaTime);
+
+	// x axis
+	if (input->isKeyDown(aie::INPUT_KEY_D))
+		player1.playerPosition += Vector2(500.0f, 0 * deltaTime);
+
+
 	// example of audio
 	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
 		m_audio->play();
@@ -68,7 +91,7 @@ void Application2D::update(float deltaTime) {
 }
 
 void Application2D::draw() {
-
+	 
 	// wipe the screen to the background colour
 	clearScreen();
 
@@ -84,29 +107,30 @@ void Application2D::draw() {
 
 	// demonstrate spinning sprite
 	m_2dRenderer->setUVRect(0,0,1,1);
-	m_2dRenderer->drawSprite(m_shipTexture, 600, 400, 0, 0, m_timer, 1);
+	m_2dRenderer->drawSprite(m_shipTexture, 600, 400, 0, 0, 0, 1);
 
 	// draw a thin line
-	m_2dRenderer->drawLine(300, 300, 600, 400, 2, 1);
-
+	m_2dRenderer->drawLine(200, 300, 200, 400, 5, 1);
+ 
 	// draw a moving purple circle
 	m_2dRenderer->setRenderColour(1, 0, 1, 1);
 	m_2dRenderer->drawCircle(sin(m_timer) * 100 + 600, 150, 50);
 
 	// draw a rotating red box
 	m_2dRenderer->setRenderColour(1, 0, 0, 1);
-	m_2dRenderer->drawBox(600, 500, 60, 20, m_timer);
+	m_2dRenderer->drawBox(600, 500, 60, 20, m_timer); 
 
 	// draw a slightly rotated sprite with no texture, coloured yellow
 	m_2dRenderer->setRenderColour(1, 1, 0, 1);
 	m_2dRenderer->drawSprite(nullptr, 400, 400, 50, 50, 3.14159f * 0.25f, 1);
-	
+
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->drawText(m_font, "Press Space for sound!", 0, 720 - 64);
+	m_2dRenderer->drawText(m_font, "Press Space for sound! (You can actually hear it now...)", 0, 720 - 64);
 
 	// done drawing sprites
 	m_2dRenderer->end();
 }
+
