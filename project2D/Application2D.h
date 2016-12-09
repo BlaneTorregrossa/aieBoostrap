@@ -34,7 +34,7 @@ protected:
 
 
 
-class Player // Class called player to take input from user.
+class Player 
 {
 private:
 
@@ -42,6 +42,17 @@ public:
 	Player() {};
 	
 	Vector2 playerPosition = Vector2 (0.00f, 0.00f);
+
+
+};
+
+class Agent
+{
+public:
+
+
+private:
+
 
 
 };

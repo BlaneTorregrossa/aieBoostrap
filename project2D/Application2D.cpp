@@ -42,7 +42,7 @@ void Application2D::shutdown() {
 	delete m_2dRenderer;
 }
 
-Player player1;
+Player playerShip;
 
 void Application2D::update(float deltaTime) {
 
@@ -64,22 +64,26 @@ void Application2D::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 		m_cameraX += 500.0f * deltaTime;
 
-	// Y axis
+	//---------------------------------------------------------------------------------------
+	// This needs to actually move something!
+	// Figure out how to get this to move the ship!
+
+	// Y axis increasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_W))
-		player1.playerPosition += Vector2(0, 500.0f * deltaTime);
+		playerShip.playerPosition += Vector2(0, 500.0f * deltaTime);
 
-	// y axis
+	// y axis decreasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_S))
-		player1.playerPosition -= Vector2(0, 500.0f * deltaTime);
+		playerShip.playerPosition -= Vector2(0, 500.0f * deltaTime);
 
-	// x axis
+	// x axis increasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_A))
-		player1.playerPosition -= Vector2(500.0f, 0 * deltaTime);
+		playerShip.playerPosition -= Vector2(500.0f, 0 * deltaTime);
 
-	// x axis
+	// x axis decreasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_D))
-		player1.playerPosition += Vector2(500.0f, 0 * deltaTime);
-
+		playerShip.playerPosition += Vector2(500.0f, 0 * deltaTime);
+	//---------------------------------------------------------------------------------------
 
 	// example of audio
 	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
