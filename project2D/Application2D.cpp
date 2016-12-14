@@ -16,7 +16,7 @@ bool Application2D::startup() {
 	m_2dRenderer = new aie::Renderer2D();
 
 	m_texture = new aie::Texture("./textures/numbered_grid.tga");
-	m_shipTexture = new aie::Texture("./textures/ship.png");
+	m_shipTexture = new aie::Texture("./textures/car.png");
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
@@ -42,7 +42,12 @@ void Application2D::shutdown() {
 	delete m_2dRenderer;
 }
 
-Player playerShip;
+//----------------------------------------------
+
+Player playerVehicle;
+
+//----------------------------------------------
+
 
 void Application2D::update(float deltaTime) {
 
@@ -65,24 +70,31 @@ void Application2D::update(float deltaTime) {
 		m_cameraX += 500.0f * deltaTime;
 
 	//---------------------------------------------------------------------------------------
-	// This needs to actually move something!
-	// Figure out how to get this to move the ship!
+	// Figure out how to get this to move the car and don't worry about the turning.
+
+	// Use WASD keys to move the Vehicle
 
 	// Y axis increasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_W))
-		playerShip.playerPosition += Vector2(0, 500.0f * deltaTime);
+		playerVehicle.playerPosition += Vector2(0, 500.0f * deltaTime);
 
 	// y axis decreasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_S))
-		playerShip.playerPosition -= Vector2(0, 500.0f * deltaTime);
+		playerVehicle.playerPosition -= Vector2(0, 500.0f * deltaTime);
 
 	// x axis increasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_A))
-		playerShip.playerPosition -= Vector2(500.0f, 0 * deltaTime);
+		playerVehicle.playerPosition -= Vector2(500.0f, 0 * deltaTime);
 
 	// x axis decreasing for player movement
 	if (input->isKeyDown(aie::INPUT_KEY_D))
-		playerShip.playerPosition += Vector2(500.0f, 0 * deltaTime);
+		playerVehicle.playerPosition += Vector2(500.0f, 0 * deltaTime);
+
+	// Use R key to reset vehicle position
+
+	// Position Reset for vehicle
+	if (input->isKeyDown(aie::INPUT_KEY_R))
+		playerVehicle.playerPosition = Vector2(0.f, 0.f);
 	//---------------------------------------------------------------------------------------
 
 	// example of audio
@@ -132,7 +144,7 @@ void Application2D::draw() {
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->drawText(m_font, "Press Space for sound! (You can actually hear it now...)", 0, 720 - 64);
+	m_2dRenderer->drawText(m_font, "Press Space for sound!", 0, 720 - 64);
 
 	// done drawing sprites
 	m_2dRenderer->end();

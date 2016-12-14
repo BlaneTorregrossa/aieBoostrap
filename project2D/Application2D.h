@@ -42,7 +42,8 @@ public:
 	Player() {};
 	
 	Vector2 playerPosition = Vector2 (0.00f, 0.00f);
-
+	Vector2 playerTest = Vector2 (0.00f, 100.00f);
+	
 
 };
 
