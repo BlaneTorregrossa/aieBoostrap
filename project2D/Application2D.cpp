@@ -16,7 +16,7 @@ bool Application2D::startup() {
 	m_2dRenderer = new aie::Renderer2D();
 
 	m_texture = new aie::Texture("./textures/numbered_grid.tga");
-	m_shipTexture = new aie::Texture("./textures/car.png");
+	m_shipTexture = new aie::Texture("./textures/car.png");		//*
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
@@ -70,7 +70,6 @@ void Application2D::update(float deltaTime) {
 		m_cameraX += 500.0f * deltaTime;
 
 	//---------------------------------------------------------------------------------------
-	// Figure out how to get this to move the car and don't worry about the turning.
 
 	// Use WASD keys to move the Vehicle
 
@@ -95,6 +94,7 @@ void Application2D::update(float deltaTime) {
 	// Position Reset for vehicle
 	if (input->isKeyDown(aie::INPUT_KEY_R))
 		playerVehicle.playerPosition = Vector2(0.f, 0.f);
+
 	//---------------------------------------------------------------------------------------
 
 	// example of audio

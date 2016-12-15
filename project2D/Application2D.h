@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "Audio.h"
-#include "Header.h"
+#include "MathLib.h"
 
 class Application2D : public aie::Application {
 public:
@@ -46,18 +46,5 @@ public:
 	
 
 };
-
-class Agent
-{
-public:
-
-
-private:
-
-
-
-};
-
-
 
 
