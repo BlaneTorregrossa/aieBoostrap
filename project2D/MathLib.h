@@ -22,9 +22,9 @@ public:
 		return Vector2(x - T.x, y - T.y);
 	}
 
-	Vector2 operator *(const Vector2 &T)
+	Vector2 operator *(const float &T)
 	{
-		return Vector2(x * T.x, y * T.y);
+		return Vector2(x * T, y * T);
 	}
 
 	Vector2 operator +=(const Vector2 &T)
