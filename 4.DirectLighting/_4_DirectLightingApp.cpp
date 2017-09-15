@@ -56,6 +56,9 @@ void _4_DirectLightingApp::update(float deltaTime) {
 	// add a transform so that we can see the axis
 	Gizmos::addTransform(mat4(1));
 
+	// shapes
+	Gizmos::addSphere(vec3(0, 0, 0), 1, 16, 16, vec4(1, 0, 0, 1));
+
 	// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
 
