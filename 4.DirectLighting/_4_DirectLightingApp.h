@@ -17,6 +17,9 @@ public:
 
 protected:
 
+	const char* vsSource;
+	const char* fsSource;
+
 	// camera transforms
 	glm::mat4	m_viewMatrix;
 	glm::mat4	m_projectionMatrix;
