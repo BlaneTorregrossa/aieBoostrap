@@ -89,8 +89,6 @@ public:
 	static void		add2DAABBFilled(const glm::vec2& center, const glm::vec2& extents, const glm::vec4& colour, const glm::mat4* transform = nullptr);	
 	static void		add2DCircle(const glm::vec2& center, float radius, unsigned int segments, const glm::vec4& colour, const glm::mat4* transform = nullptr);
 	
-private:
-
 	Gizmos(unsigned int maxLines, unsigned int maxTris,
 		   unsigned int max2DLines, unsigned int max2DTris);
 	~Gizmos();
