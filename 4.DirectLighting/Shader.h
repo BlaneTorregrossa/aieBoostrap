@@ -1,8 +1,8 @@
 #pragma once
-#include "Application.h"
-#include "_4_DirectLightingApp.h"
-
-#include <gl_core_4_4.h>
+#include <stdio.h>
+#include <vector>
+#include <glm\glm.hpp>
+#include "Filer.h"
 
 class Shader
 {
@@ -21,19 +21,17 @@ public:
 	void defaultload();
 	void load(const char * filename, unsigned int type);
 	void attach();
+
+
+	Filer* file;
 	unsigned int getUniform(const char *);
-
 	unsigned int m_program;
-
-	const char* vsSource;
-	const char* fsSource;
+	//const char* vsSource;
+	//const char* fsSource;
 
 private:
+	int success;
 	unsigned int vertexShader;
 	unsigned int fragmentShader;
-
-	unsigned int m_vao;
-	unsigned int m_vbo;
-	unsigned int m_ibo;
 };
 
