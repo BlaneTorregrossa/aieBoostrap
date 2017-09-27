@@ -30,13 +30,17 @@ void generateSphere(unsigned int segments, unsigned int rings, unsigned int& vao
 	// using AIEVertex for now, but could be any struct as long as it has the correct elements
 	Vertex* vertices = new Vertex[vertCount];
 	unsigned int* indices = new unsigned int[indexCount];
+
 	float ringAngle = glm::pi<float>() / (rings + 1);
 	float segmentAngle = 2.0f * glm::pi<float>() / segments;
+
 	Vertex* vertex = vertices;
-	for (unsigned int ring = 0; ring < (rings + 2); ++ring) {
+	for (unsigned int ring = 0; ring < (rings + 2); ++ring)
+	{
 		float r0 = glm::sin(ring * ringAngle);
 		float y0 = glm::cos(ring * ringAngle);
-		for (unsigned int segment = 0; segment < (segments + 1); ++segment, ++vertex) {
+		for (unsigned int segment = 0; segment < (segments + 1); ++segment, ++vertex)
+		{
 			float x0 = r0 * glm::sin(segment * segmentAngle);
 			float z0 = r0 * glm::cos(segment * segmentAngle);
 			vertex->position = glm::vec4(x0 * 0.5f, y0 * 0.5f, z0 * 0.5f, 1);
@@ -97,7 +101,6 @@ void generateSphere(unsigned int segments, unsigned int rings, unsigned int& vao
 bool _4_DirectLightingApp::startup() {
 
 	mesh = new Mesh();
-	shader = new Shader();
 
 	// Sets color of the background
 	setBackgroundColour(0.25f, 0.25f, 0.25f);
@@ -110,9 +113,12 @@ bool _4_DirectLightingApp::startup() {
 
 	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::quarter_pi<float>(), 16.0f / 9.0f, 0.1f, 1000.0f);
+
+	shader = new Shader();
 	shader->load("VertShade.vert", GL_VERTEX_SHADER);
 	shader->load("phong.frag", GL_FRAGMENT_SHADER);
 	shader->attach();
+
 	generateSphere(16, 16, mesh->m_vao, mesh->m_vbo, mesh->m_ibo, mesh->index_Count);
 
 	return true;

@@ -10,10 +10,10 @@ public:
 	Shader();
 	~Shader();
 
-	virtual bool startup();
-	virtual void shutdown();
-	virtual void update(float);
-	virtual void draw();
+	//virtual bool startup();
+	//virtual void shutdown();
+	//virtual void update(float);
+	//virtual void draw();
 
 	void bind();
 	void unbind();
@@ -25,13 +25,13 @@ public:
 
 	Filer* file;
 	unsigned int getUniform(const char *);
-	unsigned int m_program;
-	//const char* vsSource;
-	//const char* fsSource;
-
-private:
-	int success;
 	unsigned int vertexShader;
 	unsigned int fragmentShader;
+	unsigned int m_program;
+	const char* vsSource;
+	const char* fsSource;
+
+private:
+	//int success;
 };
 

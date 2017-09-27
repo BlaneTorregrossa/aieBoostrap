@@ -12,24 +12,6 @@ Shader::~Shader()
 {
 }
 
-bool Shader::startup()
-{
-	return false;
-}
-
-void Shader::shutdown()
-{
-	glDeleteShader(fragmentShader);
-	glDeleteShader(vertexShader);
-}
-
-void Shader::update(float)
-{
-}
-
-void Shader::draw()
-{
-}
 
 void Shader::bind()
 {
@@ -43,14 +25,14 @@ void Shader::unbind()
 
 void Shader::defaultload()
 {
-	const char* vsSource = "#version 410\n \
+	vsSource = "#version 410\n \
 	layout(location=0) in vec4 position; \
 	layout(location=1) in vec4 colour; \
 	out vec4 vColour; \
 	uniform mat4 projectionView; \
 	void main() { vColour = colour; gl_Position =\
 	projectionView * position; }";
-	const char* fsSource = "#version 410\n \
+	fsSource = "#version 410\n \
 	in vec4 vColour; \
 	out vec4 fragColour;\
 	void main() { fragColour = vColour; }";
@@ -65,7 +47,7 @@ void Shader::defaultload()
 	glShaderSource(fragmentShader, 1, (const char**)&fsSource, 0);
 	glCompileShader(fragmentShader);
 
-	m_program = glCreateProgram();
+	//m_program = glCreateProgram();
 	this->attach();
 	glLinkProgram(m_program);
 	int success = GL_FALSE;
@@ -127,6 +109,9 @@ void Shader::attach()
 		printf("%s\n", infoLog);
 		delete[] infoLog;
 	}
+
+	glDeleteShader(fragmentShader);
+	glDeleteShader(vertexShader);
 }
 
 unsigned int Shader::getUniform(const char * uniform)

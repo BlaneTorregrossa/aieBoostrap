@@ -14,6 +14,7 @@ out vec4 vBitangent;
 out vec2 vTexcoord;
 
 uniform mat4 projectionView;
+
 void main() 
 { 
 vPosition = position;

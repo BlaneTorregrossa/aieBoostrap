@@ -17,7 +17,7 @@ class _4_DirectLightingApp : public aie::Application {
 public:
 
 	_4_DirectLightingApp();
-	virtual ~_4_DirectLightingApp();
+	~_4_DirectLightingApp();
 
 	virtual bool startup();
 	virtual void shutdown();
@@ -25,18 +25,18 @@ public:
 	virtual void update(float);
 	virtual void draw();
 
-	Mesh* mesh;
-	Shader* shader;
-
-
-
 protected:
 	// camera transforms
 	glm::mat4	m_viewMatrix;
 	glm::mat4	m_projectionMatrix;
 
 private:
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int ibo;
+	//unsigned int vao;
+	//unsigned int vbo;
+	//unsigned int ibo;
+
+	Mesh* mesh;
+	
+	Shader* shader;
+
 };
