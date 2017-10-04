@@ -15,6 +15,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
+	void genPerlinValue();
+
 protected:
 
 	// camera transforms
@@ -22,6 +24,8 @@ protected:
 	glm::mat4	m_projectionMatrix;
 
 private:
+
+	float* perlinData;
 
 	unsigned int m_texture;
 	unsigned int m_program;

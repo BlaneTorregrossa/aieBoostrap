@@ -4,6 +4,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include <assert.h>
 #include <gl_core_4_4.h>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -18,7 +19,7 @@ using aie::Gizmos;
 using namespace std;
 using namespace glm;
 
-struct Vertex 
+struct Vertex
 {
 	vec4 position;
 	vec2 uv;
@@ -33,44 +34,45 @@ _6_ProceduralGenerationApp::~_6_ProceduralGenerationApp() {
 }
 
 bool _6_ProceduralGenerationApp::startup() {
-	
+
 	setBackgroundColour(0.25f, 0.25f, 0.25f);
 
 	// initialise gizmo primitive counts
 	Gizmos::create(10000, 10000, 10000, 10000);
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 1, 0));
+	m_viewMatrix = glm::lookAt(vec3(5, 10, 5), vec3(0), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
-	int imageWidth, imageHeight, imageFormat;
-	unsigned char* data = stbi_load("./textures/crate.png", &imageWidth, &imageHeight, &imageFormat, 0);
+
+	genPerlinValue(); // generate values for perlin noise
 
 	glGenTextures(1, &m_texture);	// used to generate many texture handles at once
 	glBindTexture(GL_TEXTURE_2D, m_texture);	// bind the textures to the correct slot
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);	// speciy the data for the texture (format, resolution and variable type). 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_BYTE, perlinData);	// speciy the data for the texture (format, resolution and variable type). 
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	stbi_image_free(data);	// free the loaded data of the texture
-
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 #pragma region load shader
 	const char* vsSource = "#version 410\n \
  layout(location=0) in vec4 position; \
  layout(location=1) in vec2 texCoord; \
+ uniform mat4 projectionView; \
  out vec2 vTexCoord; \
- uniform mat4 projectionViewWorldMatrix; \
  void main() { \
  vTexCoord = texCoord; \
- gl_Position = projectionViewWorldMatrix * position; \
+ gl_Position = projectionView * position; \
  }";
 
 	const char* fsSource = "#version 410\n \
 in vec2 vTexCoord; \
 out vec4 fragColor; \
-uniform sampler2D diffuse; \
+uniform sampler2D perlinTexture; \
 void main() { \
-fragColor = texture(diffuse,vTexCoord);}";
+fragColor = texture(perlinTexture, vTexCoord).rrrr; }";
 
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -86,6 +88,7 @@ fragColor = texture(diffuse,vTexCoord);}";
 	glAttachShader(m_program, vertexShader);
 	glAttachShader(m_program, fragmentShader);
 	glLinkProgram(m_program);
+
 	int success = GL_FALSE;
 	glGetProgramiv(m_program, GL_LINK_STATUS, &success);
 	if (success == GL_FALSE) {
@@ -99,22 +102,12 @@ fragColor = texture(diffuse,vTexCoord);}";
 
 
 #pragma region plane
-	/*float vertexData[] =
-	{ -5, 0, 5, 1,		0, 1,
-	5, 0, 5, 1,		1, 1,
-	5, 0, -5, 1,    1, 0,
-	-5, 0, -5, 1, 	0, 0, };
-	unsigned int indexData[] =
-	{
-	0, 1, 2,
-	0, 2, 3,
-	};*/
 
 	vector<vec4> positions = {
 		vec4(-5, 0, 5, 1),	//v0
 		vec4(5, 0, 5, 1),	//v1
-		vec4(5, 0,-5, 1),	//v2
-		vec4(-5, 0,-5, 1),	//v3
+		vec4(5, 0, -5, 1),	//v2
+		vec4(-5, 0, -5, 1),	//v3
 	};
 
 	vector<vec2> uvs = {
@@ -192,7 +185,7 @@ void _6_ProceduralGenerationApp::update(float deltaTime) {
 	//// add a transform so that we can see the axis
 	//Gizmos::addTransform(mat4(1));
 
-	//// quit if we press escape
+	// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
 
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -207,11 +200,11 @@ void _6_ProceduralGenerationApp::draw() {
 	// for drawing
 	glUseProgram(m_program); // use texture program
 
-	auto m_worldMatrix = scale(vec3(1));
+	auto m_worldMatrix = scale(vec3(1.0f));
 	auto MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
 
 	// camera bind
-	int loc = glGetUniformLocation(m_program, "projectionViewWorldMatrix");
+	int loc = glGetUniformLocation(m_program, "projectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
 
 	// set texture slot
@@ -219,7 +212,7 @@ void _6_ProceduralGenerationApp::draw() {
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 
 	// tell shader where it is
-	loc = glGetUniformLocation(m_program, "diffuse");
+	loc = glGetUniformLocation(m_program, "perlinTexture");
 	glUniform1i(loc, 0);
 
 	// draws
@@ -227,4 +220,22 @@ void _6_ProceduralGenerationApp::draw() {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 
+}
+
+void _6_ProceduralGenerationApp::genPerlinValue()
+{
+	int dims = 512; // must be the product of the power of 2
+	perlinData = new float[dims * dims];
+	float scale = (1.0f / dims) * 3;
+	int octaves = 6;
+
+	for (int x = 0; x < 512; ++x)
+	{
+		for (int y = 0; y < 512; ++y)
+		{
+			float amplitude = 1.f;
+			float persistence = 0.3f;
+			perlinData[y * dims + x] = 0;
+		}
+	}
 }
