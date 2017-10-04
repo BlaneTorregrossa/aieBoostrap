@@ -109,9 +109,6 @@ void Shader::attach()
 		printf("%s\n", infoLog);
 		delete[] infoLog;
 	}
-
-	glDeleteShader(fragmentShader);
-	glDeleteShader(vertexShader);
 }
 
 unsigned int Shader::getUniform(const char * uniform)

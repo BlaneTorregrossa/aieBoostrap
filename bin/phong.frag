@@ -1,5 +1,5 @@
 #version 410
-in vec2 vTexcoord;
+in vec2 vTexCoord;
 in vec4 vBitangent;
 in vec4 vTangent;
 in vec4 vColour;

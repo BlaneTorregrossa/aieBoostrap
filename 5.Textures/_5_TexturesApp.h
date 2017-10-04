@@ -15,6 +15,17 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
+	void Create_buffers();
+	void meshBind();
+	void meshUnbind();
+
+	void shaderBind();
+	void shaderUnbind();
+	void defaultLoad();
+	void load(const char * filename, unsigned int type);
+	void attach();
+	unsigned int getUniform(const char * uniform);
+
 protected:
 
 	// camera transforms

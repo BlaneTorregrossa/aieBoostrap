@@ -11,17 +11,15 @@ out vec4 vColour;
 out vec4 vNormal;
 out vec4 vTangent;
 out vec4 vBitangent;
-out vec2 vTexcoord;
+out vec2 vTexCoord;
 
-uniform mat4 projectionView;
+uniform mat4 projectionViewWorldMatrix;
 
-void main() 
-{ 
+void main() { 
 vPosition = position;
 vNormal = normal;
 vColour = colour; 
 vTangent = tangent;
 vBitangent = bitangent;
-vTexcoord = texcoord;
-gl_Position = projectionView * position; 
-}
+vTexCoord = texcoord;
+gl_Position = projectionViewWorldMatrix * position; }

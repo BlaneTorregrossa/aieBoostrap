@@ -10,11 +10,6 @@ public:
 	Shader();
 	~Shader();
 
-	//virtual bool startup();
-	//virtual void shutdown();
-	//virtual void update(float);
-	//virtual void draw();
-
 	void bind();
 	void unbind();
 

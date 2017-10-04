@@ -5,7 +5,6 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <gl_core_4_4.h>
-#include <vector>
 
 // Needed for textures
 #define STB_IMAGE_IMPLEMENTATION
@@ -20,6 +19,7 @@ using aie::Gizmos;
 
 using namespace std;
 using namespace glm;
+
 struct BlaneVertex {
 	vec4 position;
 	vec2 uv;
@@ -41,7 +41,7 @@ bool _5_TexturesApp::startup() {
 	Gizmos::create(10000, 10000, 10000, 10000);
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(10, 10, 10), vec3(0), vec3(0, 10, 0));
+	m_viewMatrix = glm::lookAt(vec3(10, 50, 10), vec3(0), vec3(0, 10, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
 	int imageWidth, imageHeight, imageFormat;
@@ -50,8 +50,8 @@ bool _5_TexturesApp::startup() {
 	glGenTextures(1, &m_texture);	// used to generate many texture handles at once
 	glBindTexture(GL_TEXTURE_2D, m_texture);	// bind the textures to the correct slot
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);	// speciy the data for the texture (format, resolution and variable type). 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	stbi_image_free(data);	// free the loaded data of the texture
 
@@ -135,8 +135,8 @@ fragColor = texture(diffuse,vTexCoord);}";
 	}
 	vector<unsigned> indices =
 	{
-		0,1,3,
-		1,2,3
+		0,1,2,
+		0,2,3
 	};
 #pragma endregion
 
@@ -179,20 +179,20 @@ void _5_TexturesApp::update(float deltaTime) {
 	// for camera to move and rotate around the grid
 	float time = getTime();
 
-	// draw a simple grid with gizmos
-	vec4 white(1);
-	vec4 black(0, 0, 0, 1);
-	for (int i = 0; i < 21; ++i) {
-		Gizmos::addLine(vec3(-10 + i, 0, 10),
-			vec3(-10 + i, 0, -10),
-			i == 10 ? white : black);
-		Gizmos::addLine(vec3(10, 0, -10 + i),
-			vec3(-10, 0, -10 + i),
-			i == 10 ? white : black);
-	}
+	//// draw a simple grid with gizmos
+	//vec4 white(1);
+	//vec4 black(0, 0, 0, 1);
+	//for (int i = 0; i < 21; ++i) {
+	//	Gizmos::addLine(vec3(-10 + i, 0, 10),
+	//		vec3(-10 + i, 0, -10),
+	//		i == 10 ? white : black);
+	//	Gizmos::addLine(vec3(10, 0, -10 + i),
+	//		vec3(-10, 0, -10 + i),
+	//		i == 10 ? white : black);
+	//}
 
-	// add a transform so that we can see the axis
-	Gizmos::addTransform(mat4(1));
+	//// add a transform so that we can see the axis
+	//Gizmos::addTransform(mat4(1));
 
 	//// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
@@ -230,3 +230,45 @@ void _5_TexturesApp::draw() {
 
 
 }
+
+#pragma region for move out of startup
+
+void _5_TexturesApp::Create_buffers()
+{
+
+}
+
+void _5_TexturesApp::meshBind()
+{
+}
+
+void _5_TexturesApp::meshUnbind()
+{
+}
+
+void _5_TexturesApp::shaderBind()
+{
+}
+
+void _5_TexturesApp::shaderUnbind()
+{
+}
+
+void _5_TexturesApp::defaultLoad()
+{
+}
+
+void _5_TexturesApp::load(const char * filename, unsigned int type)
+{
+}
+
+void _5_TexturesApp::attach()
+{
+}
+
+unsigned int _5_TexturesApp::getUniform(const char * uniform)
+{
+	return 0;
+}
+
+#pragma endregion
