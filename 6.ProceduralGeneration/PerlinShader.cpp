@@ -1,6 +1,11 @@
 #include "PerlinShader.h"
 
+#include <vector>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 #include <gl_core_4_4.h>
+
+using namespace glm;
 
 PerlinShader::PerlinShader() : file(0)
 {
@@ -20,10 +25,6 @@ void PerlinShader::bind()
 void PerlinShader::unbind()
 {
 	glLinkProgram(0);
-}
-
-void PerlinShader::defaultLoad()
-{
 }
 
 void PerlinShader::load(const char * filename, unsigned int type)
@@ -52,12 +53,11 @@ void PerlinShader::load(const char * filename, unsigned int type)
 void PerlinShader::attach()
 {
 	m_program = glCreateProgram();
-
 	glAttachShader(m_program, vertexShader);
 	glAttachShader(m_program, fragmentShader);
-
 	glLinkProgram(m_program);
 
+	//Checks if shader linked to program
 	int success = GL_FALSE;
 	glGetProgramiv(m_program, GL_LINK_STATUS, &success);
 	if (success == GL_FALSE)
@@ -76,32 +76,25 @@ void PerlinShader::genPerlinValue()
 {
 	int dims = 512; // must be the product of the power of 2
 	perlinData = new float[dims * dims];
-	float scale = (1.0f / dims) * 3;
-	int octaves = 6;
-
-	for (int x = 0; x < 512; ++x)
+	float scale = (1.0f / dims) * 5;
+	for (int x = 0; x < dims; ++x)
 	{
-		for (int y = 0; y < 512; ++y)
+		for (int y = 0; y < dims; ++y)
 		{
-			float amplitude = 1.f;
-			float persistence = 0.3f;
-			perlinData[y * dims + x] = 0;
+			perlinData[y * dims + x] = perlin(vec2(x, y) * scale);
 		}
 	}
 }
 
-void PerlinShader::genTextures()
+void PerlinShader::genPerlinTextures()
 {
 	glGenTextures(1, &m_texture);	// used to generate many texture handles at once
 	glBindTexture(GL_TEXTURE_2D, m_texture);	// bind the textures to the correct slot
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_BYTE, perlinData);	// speciy the data for the texture (format, resolution and variable type). 
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
 unsigned int PerlinShader::getUniform(const char * uniform)

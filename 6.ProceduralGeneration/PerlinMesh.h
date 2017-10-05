@@ -16,7 +16,6 @@ public:
 
 	void genPlane();
 	void Create_buffers();
-	void initialize(std::vector<Vertex>&verts, std::vector<unsigned int>&indices);
 	void bind();
 	void unbind();
 
@@ -31,9 +30,6 @@ protected:
 
 	unsigned int index_Count;
 	unsigned int vertex_Count;
-
-private:
-
 
 };
 

@@ -13,11 +13,10 @@ public:
 	void bind();
 	void unbind();
 
-	void defaultLoad();
 	void load(const char * filename, unsigned int type);
 	void attach();
 	void genPerlinValue();
-	void genTextures();
+	void genPerlinTextures();
 
 	PerlinFiler* file;
 	unsigned int getUniform(const char *);
@@ -28,9 +27,6 @@ public:
 	const char* vsSource;
 	const char* fsSource;
 	float* perlinData;
-
-private:
-
 
 };
 

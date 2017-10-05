@@ -40,6 +40,8 @@ void PerlinMesh::genPlane()
 		vec2(1,0), //br v2
 		vec2(1,1)  //bl v3
 	};
+
+	//	Verticies information
 	for (int i = 0; i < 4; i++)
 	{
 		Vertex v;
@@ -48,6 +50,7 @@ void PerlinMesh::genPlane()
 		verts.push_back(v);
 	}
 
+	//	Indicies information
 	indices =
 	{
 		0,1,2,
@@ -60,45 +63,36 @@ void PerlinMesh::Create_buffers()
 
 	glGenVertexArrays(1, &m_vao);
 
+	//	vertex buffer
 	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(Vertex), verts.data(), GL_STATIC_DRAW);
 
+	//	index buffer
 	glGenBuffers(1, &m_ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
+	//position
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof vec4, 0);
 
+	//uv
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof vec2, (void*)sizeof(vec4));
-}
 
-void PerlinMesh::initialize(std::vector<Vertex>& verts, std::vector<unsigned int>& indices)
-{
-	for (auto v : verts)
-	{
-		verts.push_back(v);
-	}
-
-	for (auto i : indices)
-	{
-		indices.push_back(i);
-	}
-
-	index_Count = indices.size();
-	vertex_Count = verts.size();
-}
-
-void PerlinMesh::bind()
-{
+	//cleanup
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void PerlinMesh::unbind()
+void PerlinMesh::bind()
 {
 	glBindVertexArray(m_vao);
+}
+
+void PerlinMesh::unbind()
+{
+	glBindVertexArray(0);
 }
