@@ -21,9 +21,24 @@
     <ClCompile Include="_6_ProceduralGenerationApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PerlinMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PerlinShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_6_ProceduralGenerationApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinFiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

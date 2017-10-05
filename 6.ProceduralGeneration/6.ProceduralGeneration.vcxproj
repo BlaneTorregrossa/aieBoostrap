@@ -162,10 +162,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PerlinMesh.cpp" />
+    <ClCompile Include="PerlinShader.cpp" />
     <ClCompile Include="_6_ProceduralGenerationApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PerlinFiler.h" />
+    <ClInclude Include="PerlinMesh.h" />
+    <ClInclude Include="PerlinShader.h" />
     <ClInclude Include="_6_ProceduralGenerationApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

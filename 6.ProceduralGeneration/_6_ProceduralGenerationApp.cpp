@@ -1,6 +1,8 @@
 #include "_6_ProceduralGenerationApp.h"
 #include "Gizmos.h"
 #include "Input.h"
+#include "PerlinMesh.h"
+#include "PerlinShader.h"
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -19,11 +21,11 @@ using aie::Gizmos;
 using namespace std;
 using namespace glm;
 
-struct Vertex
-{
-	vec4 position;
-	vec2 uv;
-};
+//struct Vertex
+//{
+//	vec4 position;
+//	vec2 uv;
+//};
 
 _6_ProceduralGenerationApp::_6_ProceduralGenerationApp() {
 
@@ -35,6 +37,8 @@ _6_ProceduralGenerationApp::~_6_ProceduralGenerationApp() {
 
 bool _6_ProceduralGenerationApp::startup() {
 
+	mesh = new PerlinMesh();
+
 	setBackgroundColour(0.25f, 0.25f, 0.25f);
 
 	// initialise gizmo primitive counts
@@ -44,95 +48,91 @@ bool _6_ProceduralGenerationApp::startup() {
 	m_viewMatrix = glm::lookAt(vec3(5, 10, 5), vec3(0), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
-	genPerlinValue(); // generate values for perlin noise
-
-	glGenTextures(1, &m_texture);	// used to generate many texture handles at once
-	glBindTexture(GL_TEXTURE_2D, m_texture);	// bind the textures to the correct slot
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_BYTE, perlinData);	// speciy the data for the texture (format, resolution and variable type). 
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	shader = new PerlinShader();	
+	shader->genPerlinValue();
+	shader->genTextures();
+	shader->load("perlinVertShade.vert", GL_VERTEX_SHADER);
+	shader->load("perlinPhong.frag", GL_FRAGMENT_SHADER);
+	shader->attach();
+	mesh->genPlane();
+	mesh->Create_buffers();
 
 #pragma region load shader
-	const char* vsSource = "#version 410\n \
- layout(location=0) in vec4 position; \
- layout(location=1) in vec2 texCoord; \
- uniform mat4 projectionView; \
- out vec2 vTexCoord; \
- void main() { \
- vTexCoord = texCoord; \
- gl_Position = projectionView * position; \
- }";
-
-	const char* fsSource = "#version 410\n \
-in vec2 vTexCoord; \
-out vec4 fragColor; \
-uniform sampler2D perlinTexture; \
-void main() { \
-fragColor = texture(perlinTexture, vTexCoord).rrrr; }";
-
-	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(vertexShader, 1, (const char**)&vsSource, 0);
-	glCompileShader(vertexShader);
-	glShaderSource(fragmentShader, 1, (const char**)&fsSource, 0);
-	glCompileShader(fragmentShader);
-
+//	const char* vsSource = "#version 410\n \
+// layout(location=0) in vec4 position; \
+// layout(location=1) in vec2 texCoord; \
+// uniform mat4 projectionView; \
+// out vec2 vTexCoord; \
+// void main() { \
+// vTexCoord = texCoord; \
+// gl_Position = projectionView * position; \
+// }";
+//
+//	const char* fsSource = "#version 410\n \
+//in vec2 vTexCoord; \
+//out vec4 fragColor; \
+//uniform sampler2D perlinTexture; \
+//void main() { \
+//fragColor = texture(perlinTexture, vTexCoord).rrrr; }";
+//
+//	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+//	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+//	glShaderSource(vertexShader, 1, (const char**)&vsSource, 0);
+//	glCompileShader(vertexShader);
+//	glShaderSource(fragmentShader, 1, (const char**)&fsSource, 0);
+//	glCompileShader(fragmentShader);
+//
 #pragma endregion
 
 #pragma region attach shader
-	m_program = glCreateProgram();
-	glAttachShader(m_program, vertexShader);
-	glAttachShader(m_program, fragmentShader);
-	glLinkProgram(m_program);
+	//m_program = glCreateProgram();
+	//glAttachShader(m_program, vertexShader);
+	//glAttachShader(m_program, fragmentShader);
+	//glLinkProgram(m_program);
 
-	int success = GL_FALSE;
-	glGetProgramiv(m_program, GL_LINK_STATUS, &success);
-	if (success == GL_FALSE) {
-		int infoLogLength = 0;
-		glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &infoLogLength); char* infoLog = new char[infoLogLength];
-		glGetProgramInfoLog(m_program, infoLogLength, 0, infoLog);
-		printf("Error: Failed to link shader program!\n"); printf("%s\n", infoLog); delete[] infoLog;
-	}
+	//int success = GL_FALSE;
+	//glGetProgramiv(m_program, GL_LINK_STATUS, &success);
+	//if (success == GL_FALSE) {
+	//	int infoLogLength = 0;
+	//	glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &infoLogLength); char* infoLog = new char[infoLogLength];
+	//	glGetProgramInfoLog(m_program, infoLogLength, 0, infoLog);
+	//	printf("Error: Failed to link shader program!\n"); printf("%s\n", infoLog); delete[] infoLog;
+	//}
 
 #pragma endregion
-
 
 #pragma region plane
 
-	vector<vec4> positions = {
-		vec4(-5, 0, 5, 1),	//v0
-		vec4(5, 0, 5, 1),	//v1
-		vec4(5, 0, -5, 1),	//v2
-		vec4(-5, 0, -5, 1),	//v3
-	};
+	//vector<vec4> positions = {
+	//	vec4(-5, 0, 5, 1),	//v0
+	//	vec4(5, 0, 5, 1),	//v1
+	//	vec4(5, 0, -5, 1),	//v2
+	//	vec4(-5, 0, -5, 1),	//v3
+	//};
 
-	vector<vec2> uvs = {
-		vec2(0,1), //tl v0
-		vec2(0,0), //tr v1
-		vec2(1,0), //br v2
-		vec2(1,1)  //bl v3
-	};
-	vector<Vertex> verts;
-	for (int i = 0; i < 4; i++)
-	{
-		Vertex v;
-		v.position = positions[i];
-		v.uv = uvs[i];
-		verts.push_back(v);
-	}
-	vector<unsigned> indices =
-	{
-		0,1,2,
-		0,2,3
-	};
+	//vector<vec2> uvs = {
+	//	vec2(0,1), //tl v0
+	//	vec2(0,0), //tr v1
+	//	vec2(1,0), //br v2
+	//	vec2(1,1)  //bl v3
+	//};
+	//vector<Vertex> verts;
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	Vertex v;
+	//	v.position = positions[i];
+	//	v.uv = uvs[i];
+	//	verts.push_back(v);
+	//}
+	//vector<unsigned> indices =
+	//{
+	//	0,1,2,
+	//	0,2,3
+	//};
 #pragma endregion
 
 #pragma region createBuffers
-	glGenVertexArrays(1, &m_vao);
+	/*glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
 	glGenBuffers(1, &m_vbo);
@@ -151,7 +151,7 @@ fragColor = texture(perlinTexture, vTexCoord).rrrr; }";
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); */
 #pragma endregion
 
 	return true;
@@ -197,45 +197,46 @@ void _6_ProceduralGenerationApp::draw() {
 	// wipe the screen to the background colour
 	clearScreen();
 
-	// for drawing
-	glUseProgram(m_program); // use texture program
+	shader->bind();
+	mesh->bind();
 
 	auto m_worldMatrix = scale(vec3(1.0f));
 	auto MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
 
 	// camera bind
-	int loc = glGetUniformLocation(m_program, "projectionView");
-	glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
+	int loc = shader->getUniform("projectionView");
+	glUniformMatrix4fv(loc, 1, false, &MODELVIEWPROJECTION[0][0]);
 
 	// set texture slot
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
+	glBindTexture(GL_TEXTURE_2D, shader->m_texture);
 
 	// tell shader where it is
-	loc = glGetUniformLocation(m_program, "perlinTexture");
+	loc = glGetUniformLocation(shader->m_program, "perlinTexture");
 	glUniform1i(loc, 0);
 
 	// draws
-	glBindVertexArray(m_vao);
+	glBindVertexArray(mesh->m_vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-
+	mesh->unbind();
+	shader->unbind();
 }
 
 void _6_ProceduralGenerationApp::genPerlinValue()
 {
-	int dims = 512; // must be the product of the power of 2
-	perlinData = new float[dims * dims];
-	float scale = (1.0f / dims) * 3;
-	int octaves = 6;
+	//int dims = 512; // must be the product of the power of 2
+	//perlinData = new float[dims * dims];
+	//float scale = (1.0f / dims) * 3;
+	//int octaves = 6;
 
-	for (int x = 0; x < 512; ++x)
-	{
-		for (int y = 0; y < 512; ++y)
-		{
-			float amplitude = 1.f;
-			float persistence = 0.3f;
-			perlinData[y * dims + x] = 0;
-		}
-	}
+	//for (int x = 0; x < 512; ++x)
+	//{
+	//	for (int y = 0; y < 512; ++y)
+	//	{
+	//		float amplitude = 1.f;
+	//		float persistence = 0.3f;
+	//		perlinData[y * dims + x] = 0;
+	//	}
+	//}
 }

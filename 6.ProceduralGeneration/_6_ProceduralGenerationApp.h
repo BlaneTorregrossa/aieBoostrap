@@ -1,6 +1,8 @@
 #pragma once
-
 #include "Application.h"
+#include "PerlinMesh.h"
+#include "PerlinShader.h"
+
 #include <glm/mat4x4.hpp>
 
 class _6_ProceduralGenerationApp : public aie::Application {
@@ -27,10 +29,7 @@ private:
 
 	float* perlinData;
 
-	unsigned int m_texture;
-	unsigned int m_program;
+	PerlinMesh* mesh;
 
-	unsigned int m_vao;
-	unsigned int m_vbo;
-	unsigned int m_ibo;
+	PerlinShader* shader;
 };
