@@ -29,6 +29,8 @@ protected:
 	// camera transforms
 	glm::mat4	m_viewMatrix;
 	glm::mat4	m_projectionMatrix;
+	glm::mat4	m_worldMatrix;
+	glm::mat4	MODELVIEWPROJECTION;
 
 private:
 	//unsigned int vao;

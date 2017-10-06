@@ -58,14 +58,14 @@ bool _5_TexturesApp::startup() {
 
 #pragma region load shader
 	const char* vsSource = "#version 410\n \
- layout(location=0) in vec4 position; \
- layout(location=1) in vec2 texCoord; \
- out vec2 vTexCoord; \
- uniform mat4 projectionViewWorldMatrix; \
- void main() { \
- vTexCoord = texCoord; \
- gl_Position = projectionViewWorldMatrix * position; \
- }";
+layout(location=0) in vec4 position; \
+layout(location=1) in vec2 texCoord; \
+out vec2 vTexCoord; \
+uniform mat4 projectionViewWorldMatrix; \
+void main() { \
+vTexCoord = texCoord; \
+gl_Position = projectionViewWorldMatrix * position; \
+}";
 
 	const char* fsSource = "#version 410\n \
 in vec2 vTexCoord; \
@@ -179,21 +179,6 @@ void _5_TexturesApp::update(float deltaTime) {
 	// for camera to move and rotate around the grid
 	float time = getTime();
 
-	//// draw a simple grid with gizmos
-	//vec4 white(1);
-	//vec4 black(0, 0, 0, 1);
-	//for (int i = 0; i < 21; ++i) {
-	//	Gizmos::addLine(vec3(-10 + i, 0, 10),
-	//		vec3(-10 + i, 0, -10),
-	//		i == 10 ? white : black);
-	//	Gizmos::addLine(vec3(10, 0, -10 + i),
-	//		vec3(-10, 0, -10 + i),
-	//		i == 10 ? white : black);
-	//}
-
-	//// add a transform so that we can see the axis
-	//Gizmos::addTransform(mat4(1));
-
 	//// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
 
@@ -231,44 +216,3 @@ void _5_TexturesApp::draw() {
 
 }
 
-#pragma region for move out of startup
-
-void _5_TexturesApp::Create_buffers()
-{
-
-}
-
-void _5_TexturesApp::meshBind()
-{
-}
-
-void _5_TexturesApp::meshUnbind()
-{
-}
-
-void _5_TexturesApp::shaderBind()
-{
-}
-
-void _5_TexturesApp::shaderUnbind()
-{
-}
-
-void _5_TexturesApp::defaultLoad()
-{
-}
-
-void _5_TexturesApp::load(const char * filename, unsigned int type)
-{
-}
-
-void _5_TexturesApp::attach()
-{
-}
-
-unsigned int _5_TexturesApp::getUniform(const char * uniform)
-{
-	return 0;
-}
-
-#pragma endregion

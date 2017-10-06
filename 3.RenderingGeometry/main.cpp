@@ -1,12 +1,14 @@
-#include "RenderingApp.h"
+#include "_3_RenderingGeometryApp.h"
 
-int main()
-{
+int main() {
+	
+	// allocation
+	auto app = new _3_RenderingGeometryApp();
 
-	auto app = new RenderingApp();
+	// initialise and loop
+	app->run("Please work", 1280, 720, false);
 
-	app->run("Render planesand a sphere", 1280, 720, false);
-
+	// deallocation
 	delete app;
 
 	return 0;

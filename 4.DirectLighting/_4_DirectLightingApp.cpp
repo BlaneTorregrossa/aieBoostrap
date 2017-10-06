@@ -12,6 +12,7 @@ using glm::vec3;
 using glm::vec4;
 using glm::mat4;
 using aie::Gizmos;
+
 using namespace glm;
 
 _4_DirectLightingApp::_4_DirectLightingApp() : mesh(0) , shader(0) {
@@ -111,8 +112,10 @@ bool _4_DirectLightingApp::startup() {
 	// create simple camera transforms
 	//shader->defaultload();
 
-	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 1, 0));
-	m_projectionMatrix = glm::perspective(glm::quarter_pi<float>(), 16.0f / 9.0f, 0.1f, 1000.0f);
+	m_viewMatrix = glm::lookAt(vec3(10, 50, 10), vec3(0), vec3(0, 10, 0));
+	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
+	m_worldMatrix = scale(vec3(1));
+	MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
 
 	shader = new Shader();
 	shader->load("VertShade.vert", GL_VERTEX_SHADER);
@@ -137,23 +140,7 @@ void _4_DirectLightingApp::update(float deltaTime) {
 	// time for application running
 	float time = getTime();
 
-	// a camera's movement to give a good enough view to observe an object positioned in the center
-	m_viewMatrix = glm::lookAt(vec3(glm::sin(time) * 20, 5, glm::cos(time) * 15), vec3(0), vec3(0, 1, 0));
-
-	// draw a simple grid with gizmos
-	vec4 white(1);
-	vec4 black(0, 0, 0, 1);
-	for (int i = 0; i < 21; ++i) {
-		Gizmos::addLine(vec3(-10 + i, 0, 10),
-			vec3(-10 + i, 0, -10),
-			i == 10 ? white : black);
-		Gizmos::addLine(vec3(10, 0, -10 + i),
-			vec3(-10, 0, -10 + i),
-			i == 10 ? white : black);
-	}
-
-	// add a transform so that we can see the axis
-	Gizmos::addTransform(mat4(1), 25);
+	m_viewMatrix = glm::lookAt(vec3(glm::sin(time) * 10, 10, glm::cos(time) * 10), vec3(0), vec3(0, 1, 0));
 
 	// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
@@ -170,14 +157,13 @@ void _4_DirectLightingApp::draw() {
 	shader->bind();
 	mesh->bind();
 	
+
+
 	int projView = shader->getUniform("projectionView");
-	glUniformMatrix4fv(projView, 1, false, &m_projectionMatrix[0][0]);
+	glUniformMatrix4fv(projView, 1, false, &MODELVIEWPROJECTION[0][0]);
 
-	//glUseProgram(shader->m_program);
+	glBindVertexArray(mesh->m_vao);
 	glDrawElements(GL_TRIANGLES, mesh->index_Count, GL_UNSIGNED_INT, 0);
-
-	
-	Gizmos::draw(m_projectionMatrix * m_viewMatrix);
 
 	mesh->unbind();
 	shader->unbind();

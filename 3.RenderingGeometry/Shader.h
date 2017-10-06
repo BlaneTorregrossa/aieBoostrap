@@ -10,15 +10,9 @@ public:
 	Shader();
 	~Shader();
 
-	//virtual bool startup();
-	//virtual void shutdown();
-	//virtual void update(float);
-	//virtual void draw();
-
 	void bind();
 	void unbind();
 
-	void defaultload();
 	void load(const char * filename, unsigned int type);
 	void attach();
 
@@ -31,7 +25,6 @@ public:
 	const char* vsSource;
 	const char* fsSource;
 
-private:
-	//int success;
+
 };
 

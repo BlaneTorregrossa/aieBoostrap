@@ -23,48 +23,6 @@ void Shader::unbind()
 	glLinkProgram(0);
 }
 
-void Shader::defaultload()
-{
-	vsSource = "#version 410\n \
-	layout(location=0) in vec4 position; \
-	layout(location=1) in vec4 colour; \
-	out vec4 vColour; \
-	uniform mat4 projectionView; \
-	void main() { vColour = colour; gl_Position =\
-	projectionView * position; }";
-	fsSource = "#version 410\n \
-	in vec4 vColour; \
-	out vec4 fragColour;\
-	void main() { fragColour = vColour; }";
-	//file->writeIt("Vertex.vert", vsSource);
-	//file->writeIt("Fragment.frag", fsSource);
-
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	//specify where the source is located and bind to the specific shader handle
-	glShaderSource(vertexShader, 1, (const char **)&vsSource, 0);
-	glCompileShader(vertexShader);
-	glShaderSource(fragmentShader, 1, (const char**)&fsSource, 0);
-	glCompileShader(fragmentShader);
-
-	//m_program = glCreateProgram();
-	this->attach();
-	glLinkProgram(m_program);
-	int success = GL_FALSE;
-	// check that it compiled and linked correctly
-	glGetProgramiv(m_program, GL_LINK_STATUS, &success);
-	if (success == GL_FALSE)
-	{
-		int infoLogLength = 0;
-		glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &infoLogLength);
-		char* infoLog = new char[infoLogLength + 1];
-		glGetProgramInfoLog(m_program, infoLogLength, 0, infoLog);
-		printf("Error: Failed to link shader program!\n");
-		printf("%s\n", infoLog);
-		delete[] infoLog;
-	}
-}
-
 void Shader::load(const char * filename, unsigned int type)
 {
 	const char* contents = file->readIt(filename);
