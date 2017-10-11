@@ -34,18 +34,18 @@ bool _6_ProceduralGenerationApp::startup() {
 	mesh = new PerlinMesh();	// new up a mesh
 
 	// RGB for background color
-	setBackgroundColour(0.25f, 0.25f, 0.25f);
+	setBackgroundColour(0.25f, 0.25f, 0.45f);
 
 	// initialise gizmo primitive counts
 	Gizmos::create(10000, 10000, 10000, 10000);
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(5, 10, 5), vec3(0), vec3(0, 1, 0));
+	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 10, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
 	shader = new PerlinShader();	// new up a shader
 	shader->genPerlinValue();		// Generate the values for perlin noise
-	shader->genPerlinTextures();	// Setup texture information
+	shader->genPerlinTextures();	// Setup texture information (Must be done after Perlin value is generated)
 	shader->load("perlinVertShade.vert", GL_VERTEX_SHADER);		// Load Vertex Shader from specified file
 	shader->load("perlinPhong.frag", GL_FRAGMENT_SHADER);		// Load Fragment Shader	from specified file
 	shader->attach();	// Attatch both shaders to the program
@@ -80,17 +80,15 @@ void _6_ProceduralGenerationApp::draw() {
 	// wipe the screen to the background colour
 	clearScreen();
 
-	
-	mesh->bind();
-	shader->bind();
+	glUseProgram(shader->m_program);
 
 	//extra setup for camera
-	auto m_worldMatrix = scale(vec3(1.0f));
+	auto m_worldMatrix = scale(vec3(1));
 	auto MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
 
-	// camera bind
-	int loc = shader->getUniform("projectionView");
-	glUniformMatrix4fv(loc, 1, false, &MODELVIEWPROJECTION[0][0]);
+	// camera bind				 
+	int loc = glGetUniformLocation(shader->m_program, "projectionView");
+	glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
 
 	// set texture slot
 	glActiveTexture(GL_TEXTURE0);	// Telling openGL which texture to use
@@ -102,29 +100,10 @@ void _6_ProceduralGenerationApp::draw() {
 
 	// draws
 	glBindVertexArray(mesh->m_vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);	// ISSUE HERE WHEN PROGRAM ATTEMPTS TO DRAW
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-	shader->unbind();
-	mesh->unbind();
-	
 }
 
-void _6_ProceduralGenerationApp::genPerlinValue()
-{
-	//int dims = 512; // must be the product of the power of 2
-	//perlinData = new float[dims * dims];
-	//float scale = (1.0f / dims) * 3;
-	//int octaves = 6;
 
-	//for (int x = 0; x < 512; ++x)
-	//{
-	//	for (int y = 0; y < 512; ++y)
-	//	{
-	//		float amplitude = 1.f;
-	//		float persistence = 0.3f;
-	//		perlinData[y * dims + x] = 0;
-	//	}
-	//}
-}
 
 

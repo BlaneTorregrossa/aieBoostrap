@@ -6,7 +6,7 @@ int main() {
 	auto app = new _6_ProceduralGenerationApp();
 
 	// initialise and loop
-	app->run("AIE", 1280, 720, false);
+	app->run("NOISE", 1280, 720, false);
 
 	// deallocation
 	delete app;

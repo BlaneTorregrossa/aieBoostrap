@@ -1,4 +1,6 @@
 #pragma once
+
+// the worst class
 #include <vector>
 #include<glm/glm.hpp>
 
@@ -23,10 +25,10 @@ public:
 	unsigned int m_vbo;
 	unsigned int m_ibo;
 
-protected:
-
 	std::vector<Vertex> verts;
 	std::vector<unsigned> indices;
+
+protected:
 
 	unsigned int index_Count;
 	unsigned int vertex_Count;

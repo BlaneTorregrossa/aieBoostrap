@@ -6,8 +6,6 @@
 #include <assert.h>
 #include <gl_core_4_4.h>
 
-
-
 using std::vector;
 using glm::vec3;
 using glm::vec4;
@@ -53,15 +51,15 @@ void PerlinMesh::genPlane()
 	//	Indicies information
 	indices =
 	{
-		0,1,2,
-		0,2,3
+		0,1,3,
+		1,2,3
 	};
 }
 
 void PerlinMesh::Create_buffers()
 {
-
 	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
 
 	//	vertex buffer
 	glGenBuffers(1, &m_vbo);
