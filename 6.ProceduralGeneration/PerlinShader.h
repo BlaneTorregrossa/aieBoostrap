@@ -10,16 +10,12 @@ public:
 	PerlinShader();
 	~PerlinShader();
 
-	void bind();
-	void unbind();
-
 	void load(const char * filename, unsigned int type);
 	void attach();
 	void genPerlinValue();
 	void genPerlinTextures();
 
 	PerlinFiler* file;
-	unsigned int getUniform(const char *);
 	unsigned int vertexShader;
 	unsigned int fragmentShader;
 	unsigned int m_program;

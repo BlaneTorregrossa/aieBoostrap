@@ -1,6 +1,5 @@
 #pragma once
 
-// the worst class
 #include <vector>
 #include<glm/glm.hpp>
 
@@ -18,8 +17,6 @@ public:
 
 	void genPlane();
 	void Create_buffers();
-	void bind();
-	void unbind();
 
 	unsigned int m_vao;
 	unsigned int m_vbo;

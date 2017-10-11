@@ -25,16 +25,6 @@ PerlinShader::~PerlinShader()
 {
 }
 
-void PerlinShader::bind()
-{
-	glLinkProgram(m_program);
-}
-
-void PerlinShader::unbind()
-{
-	glLinkProgram(0);
-}
-
 void PerlinShader::load(const char * filename, unsigned int type)
 {
 	const char* contents = file->readIt(filename);
@@ -82,13 +72,12 @@ void PerlinShader::attach()
 
 void PerlinShader::genPerlinValue()
 {
-	int dims = 512; // must be the product of the power of 2
+	int dims = 64;
 	perlinData = new float[dims * dims];
-	//float scale = (1.0f / dims) * 3;
-	float scale = 1.0f;		//temporary value
-	for (int x = 0; x < 512; ++x)
+	float scale = (1.0f / dims) * 3;
+	for (int x = 0; x < 64; ++x)
 	{
-		for (int y = 0; y < 512; ++y)
+		for (int y = 0; y < 64; ++y)
 		{
 			perlinData[y * dims + x] = perlin(vec2(x, y) * scale) * 0.5f + 0.5f;
 		}
@@ -97,21 +86,17 @@ void PerlinShader::genPerlinValue()
 
 void PerlinShader::genPerlinTextures()
 {
-
 	int imageWidth, imageHeight, imageFormat;
 	unsigned char* data = stbi_load("./textures/crate.png", &imageWidth, &imageHeight, &imageFormat, 0);
 
 	glGenTextures(1, &m_texture);	// used to generate many texture handles at once
 	glBindTexture(GL_TEXTURE_2D, m_texture);	// bind the textures to the correct slot
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, perlinData);	// speciy the data for the texture (format, resolution and variable type). 
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, 64, 64, 0, GL_RED, GL_FLOAT, perlinData);	// speciy the data for the texture. 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	stbi_image_free(data);
-
 }
 

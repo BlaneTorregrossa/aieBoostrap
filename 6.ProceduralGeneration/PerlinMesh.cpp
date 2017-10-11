@@ -18,7 +18,6 @@ PerlinMesh::PerlinMesh()
 {
 }
 
-
 PerlinMesh::~PerlinMesh()
 {
 }
@@ -29,7 +28,7 @@ void PerlinMesh::genPlane()
 		vec4(-5, 0, 5, 1),	//v0
 		vec4(5, 0, 5, 1),	//v1
 		vec4(5, 0, -5, 1),	//v2
-		vec4(-5, 0, -5, 1),	//v3
+		vec4(-5, 0, -5, 1)	//v3
 	};
 
 	vector<vec2> uvs = {
@@ -38,6 +37,14 @@ void PerlinMesh::genPlane()
 		vec2(1,0), //br v2
 		vec2(1,1)  //bl v3
 	};
+
+	/* Order ((vec4)Position, (vec2)Uv)
+	To be set up as:
+	-5, 0, 5, 1, 0, 1,
+	5, 0, 5, 1, 0, 0,
+	5, 0, -5, 1, 1, 0,
+	-5, 0, -5, 1, 1, 1
+	*/
 
 	//	Verticies information
 	for (int i = 0; i < 4; i++)
@@ -83,14 +90,4 @@ void PerlinMesh::Create_buffers()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-void PerlinMesh::bind()
-{
-	glBindVertexArray(m_vao);
-}
-
-void PerlinMesh::unbind()
-{
-	glBindVertexArray(0);
 }
