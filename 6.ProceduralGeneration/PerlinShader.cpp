@@ -72,22 +72,35 @@ void PerlinShader::attach()
 	}
 }
 
-// Values for perlin noise
+// Values for perlin noise (To be replaced)
 void PerlinShader::genPerlinValue()
 {
 	int dims = 64;
 	perlinData = new float[dims * dims];
 	float scale = (1.0f / dims) * 3;
+	int octaves = 6;
+
 	for (int x = 0; x < 64; ++x)
 	{
 		for (int y = 0; y < 64; ++y)
 		{
-			perlinData[y * dims + x] = (perlin(vec2(x, y) * scale) * 0.5f) + 0.5f;
+			float amplitude = 1.f;
+			float persistence = 0.3f;
+			perlinData[y * dims + x] = 0;
+
+			for (int o = 0; o < octaves; ++o)
+			{
+				float freq = powf(2, (float)o);
+				float perlinSample = perlin(vec2(x, y) * scale * freq) * 0.5f + 0.5f;
+				perlinData[y * dims + x] += perlinSample * amplitude;
+				amplitude *= persistence;
+			}
 		}
+
 	}
 }
 
- //	Genertate perlin textures 
+//	Genertate perlin textures 
 void PerlinShader::genPerlinTextures()
 {
 	/*int imageWidth, imageHeight, imageFormat;
@@ -99,8 +112,8 @@ void PerlinShader::genPerlinTextures()
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, 64, 64, 0, GL_RED, GL_FLOAT, perlinData);	// speciy the data for the texture. 
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	//stbi_image_free(data);
 }

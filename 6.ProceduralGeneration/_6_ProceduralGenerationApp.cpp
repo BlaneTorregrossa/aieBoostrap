@@ -37,13 +37,13 @@ bool _6_ProceduralGenerationApp::startup() {
 	mesh = new PerlinMesh();
 
 	// RGB for background color (soft blue background to make other objects in the window clear to see)
-	setBackgroundColour(0.25f, 0.25f, 0.45f);
+	setBackgroundColour(0.25f, 0.25f, 0.35f);
 
 	// initialise gizmo primitive counts
 	//Gizmos::Create();
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(0, 120, -20), vec3(50, 0, 50), vec3(0, 1, 0));
+	m_viewMatrix = glm::lookAt(vec3(0, 60, -20), vec3(50, 0, 50), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	m_worldMatrix = scale(vec3(1));
 	MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
@@ -55,7 +55,7 @@ bool _6_ProceduralGenerationApp::startup() {
 	shader->load("perlinPhong.frag", GL_FRAGMENT_SHADER);		// Load Fragment Shader	from specified file
 	shader->attach();	// Attatch both shaders to the program
 	//mesh->genPlane();	// Generates a plane
-	mesh->generateGrid(100,100);
+	mesh->generateGrid(100,100);	// Generate grid for the texture
 	mesh->Create_buffers();
 
 	return true;
@@ -92,10 +92,9 @@ void _6_ProceduralGenerationApp::draw() {
 
 	// camera bind				 
 	int loc = glGetUniformLocation(shader->m_program, "projectionView");
-	//glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
-	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(m_projectionMatrix * m_viewMatrix * planeTransform));
+	glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
 
-	// set texture slot (DO NOT REMOVE)
+	// set texture slot (DO NOT MODIFY)
 	glActiveTexture(GL_TEXTURE0);	// select active texture unit
 	glBindTexture(GL_TEXTURE_2D, shader->m_texture);
 
