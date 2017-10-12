@@ -25,6 +25,7 @@ PerlinShader::~PerlinShader()
 {
 }
 
+// Loads shaders from file when given a filename and shader type
 void PerlinShader::load(const char * filename, unsigned int type)
 {
 	const char* contents = file->readIt(filename);
@@ -48,6 +49,7 @@ void PerlinShader::load(const char * filename, unsigned int type)
 	}
 }
 
+// Attaches and then links shaders to the program
 void PerlinShader::attach()
 {
 	m_program = glCreateProgram();
@@ -70,6 +72,7 @@ void PerlinShader::attach()
 	}
 }
 
+// Values for perlin noise
 void PerlinShader::genPerlinValue()
 {
 	int dims = 64;
@@ -79,24 +82,26 @@ void PerlinShader::genPerlinValue()
 	{
 		for (int y = 0; y < 64; ++y)
 		{
-			perlinData[y * dims + x] = perlin(vec2(x, y) * scale) * 0.5f + 0.5f;
+			perlinData[y * dims + x] = (perlin(vec2(x, y) * scale) * 0.5f) + 0.5f;
 		}
 	}
 }
 
+ //	Genertate perlin textures 
 void PerlinShader::genPerlinTextures()
 {
-	int imageWidth, imageHeight, imageFormat;
-	unsigned char* data = stbi_load("./textures/crate.png", &imageWidth, &imageHeight, &imageFormat, 0);
+	/*int imageWidth, imageHeight, imageFormat;
+	unsigned char* data = stbi_load("./textures/crate.png", &imageWidth, &imageHeight, &imageFormat, 0);*/
 
 	glGenTextures(1, &m_texture);	// used to generate many texture handles at once
 	glBindTexture(GL_TEXTURE_2D, m_texture);	// bind the textures to the correct slot
 
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, 64, 64, 0, GL_RED, GL_FLOAT, perlinData);	// speciy the data for the texture. 
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	stbi_image_free(data);
+	//stbi_image_free(data);
 }
 

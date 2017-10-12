@@ -28,22 +28,25 @@ _6_ProceduralGenerationApp::~_6_ProceduralGenerationApp() {
 
 }
 
+
+
+// Setup
 bool _6_ProceduralGenerationApp::startup() {
 
-	mesh = new PerlinMesh();	// new up a mesh
+	// new up a mesh
+	mesh = new PerlinMesh();
 
 	// RGB for background color (soft blue background to make other objects in the window clear to see)
 	setBackgroundColour(0.25f, 0.25f, 0.45f);
 
 	// initialise gizmo primitive counts
-	Gizmos::create(10000, 10000, 10000, 10000);
+	//Gizmos::Create();
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(10, 50, 10), vec3(0), vec3(0, 10, 0));
+	m_viewMatrix = glm::lookAt(vec3(0, 120, -20), vec3(50, 0, 50), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	m_worldMatrix = scale(vec3(1));
 	MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
-
 
 	shader = new PerlinShader();	// new up a shader
 	shader->genPerlinValue();		// Generate the values for perlin noise
@@ -51,7 +54,8 @@ bool _6_ProceduralGenerationApp::startup() {
 	shader->load("perlinVertShade.vert", GL_VERTEX_SHADER);		// Load Vertex Shader from specified file
 	shader->load("perlinPhong.frag", GL_FRAGMENT_SHADER);		// Load Fragment Shader	from specified file
 	shader->attach();	// Attatch both shaders to the program
-	mesh->genPlane();	// Information for geometry to generate a plane
+	//mesh->genPlane();	// Generates a plane
+	mesh->generateGrid(100,100);
 	mesh->Create_buffers();
 
 	return true;
@@ -59,13 +63,15 @@ bool _6_ProceduralGenerationApp::startup() {
 
 void _6_ProceduralGenerationApp::shutdown() {
 
-	Gizmos::destroy();
+	//Gizmos::destroy();
 }
 
+
+glm::mat4 planeTransform = glm::mat4(1);
 void _6_ProceduralGenerationApp::update(float deltaTime) {
 
 	// wipe the gizmos clean for this frame
-	Gizmos::clear();
+	/*Gizmos::clear();*/
 
 	// for camera to move and rotate around the grid
 	float time = getTime();
@@ -82,14 +88,16 @@ void _6_ProceduralGenerationApp::draw() {
 	// wipe the screen to the background colour
 	clearScreen();
 
-	glUseProgram(shader->m_program);
+	glUseProgram(shader->m_program);	// use shader programs
 
 	// camera bind				 
 	int loc = glGetUniformLocation(shader->m_program, "projectionView");
-	glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
+	//glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
+	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(m_projectionMatrix * m_viewMatrix * planeTransform));
 
 	// set texture slot (DO NOT REMOVE)
 	glActiveTexture(GL_TEXTURE0);	// select active texture unit
+	glBindTexture(GL_TEXTURE_2D, shader->m_texture);
 
 	// tell shader where it is 
 	loc = glGetUniformLocation(shader->m_program, "perlinTexture");
@@ -97,9 +105,8 @@ void _6_ProceduralGenerationApp::draw() {
 
 	// draws
 	glBindVertexArray(mesh->m_vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	glUseProgram(0);
 }
-
-
-
-
