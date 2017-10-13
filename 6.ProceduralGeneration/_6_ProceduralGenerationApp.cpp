@@ -43,13 +43,13 @@ bool _6_ProceduralGenerationApp::startup() {
 	//Gizmos::Create();
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(0, 60, -20), vec3(50, 0, 50), vec3(0, 1, 0));
+	m_viewMatrix = glm::lookAt(vec3(0, 60, -70), vec3(50, 0, 50), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	m_worldMatrix = scale(vec3(1));
 	MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
 
 	shader = new PerlinShader();	// new up a shader
-	shader->genPerlinValue();		// Generate the values for perlin noise
+	shader->genNoiseValue(64, 64);		// Generate the values for perlin noise
 	shader->genPerlinTextures();	// Setup texture information (Must be done after Perlin value is generated)
 	shader->load("perlinVertShade.vert", GL_VERTEX_SHADER);		// Load Vertex Shader from specified file
 	shader->load("perlinPhong.frag", GL_FRAGMENT_SHADER);		// Load Fragment Shader	from specified file

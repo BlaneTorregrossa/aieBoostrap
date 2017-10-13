@@ -12,7 +12,8 @@ public:
 
 	void load(const char * filename, unsigned int type);
 	void attach();
-	void genPerlinValue();
+	void genNoiseValue(float width, float height);
+	float noise(glm::vec2 pos);
 	void genPerlinTextures();
 
 	PerlinFiler* file;

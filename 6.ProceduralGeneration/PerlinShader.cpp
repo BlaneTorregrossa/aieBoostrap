@@ -11,7 +11,6 @@
 using std::vector;
 using glm::vec3;
 using glm::vec4;
-using glm::mat4;
 
 using namespace glm;
 using namespace std;
@@ -72,27 +71,32 @@ void PerlinShader::attach()
 	}
 }
 
-// Values for perlin noise (To be replaced)
-void PerlinShader::genPerlinValue()
+// For generating noise
+void PerlinShader::genNoiseValue(float width, float height)
 {
-	int dims = 64;
-	perlinData = new float[dims * dims];
-	float scale = (1.0f / dims) * 3;
-	int octaves = 6;
+	perlinData = new float[width * height];
+	float scale = 0;
+	int octaves = 8;
 
-	for (int x = 0; x < 64; ++x)
+	if ((1 / height) == (1 / width))
 	{
-		for (int y = 0; y < 64; ++y)
+		scale = 1 / width;
+		scale *= 5;
+	}
+
+	for (int x = 0; x < width; x++)
+	{
+		for (int y = 0; y < height; y++)
 		{
 			float amplitude = 1.f;
 			float persistence = 0.3f;
-			perlinData[y * dims + x] = 0;
-
-			for (int o = 0; o < octaves; ++o)
+			perlinData[y * 64 + x] = 0;
+			for (int o = 0; o < octaves; o++)
 			{
 				float freq = powf(2, (float)o);
-				float perlinSample = perlin(vec2(x, y) * scale * freq) * 0.5f + 0.5f;
-				perlinData[y * dims + x] += perlinSample * amplitude;
+				//float perlinSample = glm::perlin(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// the sample
+				float blaneNoise = noise(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// to do what perlin does (FIX!!!)
+				perlinData[y * 64 + x] += blaneNoise * amplitude;
 				amplitude *= persistence;
 			}
 		}
@@ -100,21 +104,26 @@ void PerlinShader::genPerlinValue()
 	}
 }
 
+//	trash (Due for rework)
+float PerlinShader::noise(vec2 pos)
+{
+	float tmpValue = 0;
+
+	return tmpValue;
+}
+
 //	Genertate perlin textures 
 void PerlinShader::genPerlinTextures()
 {
-	/*int imageWidth, imageHeight, imageFormat;
-	unsigned char* data = stbi_load("./textures/crate.png", &imageWidth, &imageHeight, &imageFormat, 0);*/
-
 	glGenTextures(1, &m_texture);	// used to generate many texture handles at once
 	glBindTexture(GL_TEXTURE_2D, m_texture);	// bind the textures to the correct slot
 
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, 64, 64, 0, GL_RED, GL_FLOAT, perlinData);	// speciy the data for the texture. 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	//stbi_image_free(data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
