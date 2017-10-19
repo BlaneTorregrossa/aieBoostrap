@@ -94,9 +94,9 @@ void PerlinShader::genNoiseValue(float width, float height)
 			for (int o = 0; o < octaves; o++)
 			{
 				float freq = powf(2, (float)o);
-				//float perlinSample = glm::perlin(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// the sample
-				float blaneNoise = noise(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// to do what perlin does (FIX!!!)
-				perlinData[y * 64 + x] += blaneNoise * amplitude;
+				float perlinSample = glm::perlin(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// the sample
+				float blaneNoise = blane_noise(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// to do what perlin does (FIX!!!)
+				perlinData[y * 64 + x] += perlinSample* amplitude;
 				amplitude *= persistence;
 			}
 		}
@@ -104,12 +104,20 @@ void PerlinShader::genNoiseValue(float width, float height)
 	}
 }
 
-//	trash (Due for rework)
-float PerlinShader::noise(vec2 pos)
+float PerlinShader::shuffle(int x, int y)
 {
-	float tmpValue = 0;
+	return 0;
+}
 
-	return tmpValue;
+float PerlinShader::blane_noise(vec2 pos)
+{
+	float xy = shuffle(pos.x, pos.y);
+	float Xy = shuffle(pos.x + 1, pos.y);
+	float xY = shuffle(pos.x, pos.y + 1);
+	float XY = shuffle(pos.x + 1, pos.y + 1);
+	
+	return 0;
+
 }
 
 //	Genertate perlin textures 

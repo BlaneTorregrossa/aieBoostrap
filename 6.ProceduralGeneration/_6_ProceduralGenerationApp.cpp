@@ -43,7 +43,7 @@ bool _6_ProceduralGenerationApp::startup() {
 	//Gizmos::Create();
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(0, 60, -70), vec3(50, 0, 50), vec3(0, 1, 0));
+	m_viewMatrix = glm::lookAt(vec3(0, 100, -70), vec3(50, 0, 50), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	m_worldMatrix = scale(vec3(1));
 	MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;

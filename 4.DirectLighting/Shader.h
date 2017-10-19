@@ -10,23 +10,15 @@ public:
 	Shader();
 	~Shader();
 
-	void bind();
-	void unbind();
-
-	void defaultload();
 	void load(const char * filename, unsigned int type);
 	void attach();
 
-
 	Filer* file;
-	unsigned int getUniform(const char *);
 	unsigned int vertexShader;
 	unsigned int fragmentShader;
 	unsigned int m_program;
 	const char* vsSource;
 	const char* fsSource;
 
-private:
-	//int success;
 };
 

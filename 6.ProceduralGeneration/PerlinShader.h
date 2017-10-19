@@ -13,7 +13,8 @@ public:
 	void load(const char * filename, unsigned int type);
 	void attach();
 	void genNoiseValue(float width, float height);
-	float noise(glm::vec2 pos);
+	float shuffle(int x, int y);
+	float blane_noise(glm::vec2 pos);
 	void genPerlinTextures();
 
 	PerlinFiler* file;
