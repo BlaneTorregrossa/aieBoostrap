@@ -18,13 +18,13 @@
     <ClInclude Include="RenderingApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\4.DirectLighting\Mesh.h">
+    <ClInclude Include="GeoFiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\4.DirectLighting\Shader.h">
+    <ClInclude Include="GeoMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\4.DirectLighting\Filer.h">
+    <ClInclude Include="GeoShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,10 +35,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\4.DirectLighting\Mesh.cpp">
+    <ClCompile Include="GeoMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\4.DirectLighting\Shader.cpp">
+    <ClCompile Include="GeoShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

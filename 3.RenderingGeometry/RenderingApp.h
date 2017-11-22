@@ -1,7 +1,7 @@
 #pragma once
 #include "Application.h"
-#include "Mesh.h"
-#include "Shader.h"
+#include "GeoMesh.h"
+#include "GeoShader.h"
 #include <glm/mat4x4.hpp>
 
 class RenderingApp : public aie::Application

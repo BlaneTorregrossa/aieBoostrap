@@ -118,14 +118,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\4.DirectLighting\Filer.h" />
-    <ClInclude Include="..\4.DirectLighting\Mesh.h" />
-    <ClInclude Include="..\4.DirectLighting\Shader.h" />
+    <ClInclude Include="GeoFiler.h" />
+    <ClInclude Include="GeoMesh.h" />
+    <ClInclude Include="GeoShader.h" />
     <ClInclude Include="RenderingApp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\4.DirectLighting\Mesh.cpp" />
-    <ClCompile Include="..\4.DirectLighting\Shader.cpp" />
+    <ClCompile Include="GeoMesh.cpp" />
+    <ClCompile Include="GeoShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingApp.cpp" />
   </ItemGroup>

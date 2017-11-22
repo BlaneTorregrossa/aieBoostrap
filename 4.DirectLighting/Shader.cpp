@@ -1,6 +1,5 @@
 #include "Shader.h"
 
-
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -67,5 +66,6 @@ void Shader::attach()
 		delete[] infoLog;
 	}
 }
+
 
 
