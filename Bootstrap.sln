@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bootstrap", "bootstrap\Bootstrap.vcxproj", "{AF59BB0B-E059-4773-83DC-728A949647DA}"
 EndProject
@@ -24,7 +24,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "5.Textures", "5.Textures\5.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3.RenderingGeometry", "3.RenderingGeometry\3.RenderingGeometry.vcxproj", "{02F223E5-3299-470A-9301-83C680BBB16B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2.CamerasAndProjections", "2.CamerasAndProjections\2.CamerasAndProjections.vcxproj", "{D8AA3A89-85AF-469F-BE69-1189EEC42967}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "6.ProceduralGeneration", "6.ProceduralGeneration\6.ProceduralGeneration.vcxproj", "{06563229-B55E-4276-B49B-61ABCD5C9DEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,14 +76,14 @@ Global
 		{02F223E5-3299-470A-9301-83C680BBB16B}.Release|x64.Build.0 = Release|x64
 		{02F223E5-3299-470A-9301-83C680BBB16B}.Release|x86.ActiveCfg = Release|Win32
 		{02F223E5-3299-470A-9301-83C680BBB16B}.Release|x86.Build.0 = Release|Win32
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Debug|x64.ActiveCfg = Debug|x64
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Debug|x64.Build.0 = Debug|x64
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Debug|x86.ActiveCfg = Debug|Win32
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Debug|x86.Build.0 = Debug|Win32
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Release|x64.ActiveCfg = Release|x64
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Release|x64.Build.0 = Release|x64
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Release|x86.ActiveCfg = Release|Win32
-		{D8AA3A89-85AF-469F-BE69-1189EEC42967}.Release|x86.Build.0 = Release|Win32
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Debug|x64.ActiveCfg = Debug|x64
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Debug|x64.Build.0 = Debug|x64
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Debug|x86.ActiveCfg = Debug|Win32
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Debug|x86.Build.0 = Debug|Win32
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Release|x64.ActiveCfg = Release|x64
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Release|x64.Build.0 = Release|x64
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Release|x86.ActiveCfg = Release|Win32
+		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

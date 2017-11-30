@@ -10,6 +10,6 @@ out vec4 fragColour;
 
 void main() 
 { 
-	float diffuse = max(0, dot(normalize(vNormal.xyz), vec3(0,1,0)));
-	fragColour = vec4(diffuse,diffuse,diffuse,1); 
+float diffuse = max(0, dot(normalize(vNormal.xyz), vec3(0,1,0)));
+fragColour = vec4(diffuse,diffuse,diffuse,1); 
 }

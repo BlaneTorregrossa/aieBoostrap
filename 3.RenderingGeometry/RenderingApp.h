@@ -1,10 +1,8 @@
 #pragma once
 #include "Application.h"
-#include "Mesh.h"
-#include "Shader.h"
+#include "GeoMesh.h"
+#include "GeoShader.h"
 #include <glm/mat4x4.hpp>
-
-
 
 class RenderingApp : public aie::Application
 {
@@ -19,18 +17,19 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
-	void generatePlane();
-
 protected:
 
 	glm::mat4 m_viewMatrix;
 	glm::mat4 m_projectionMatrix;
+	glm::mat4	m_worldMatrix;
+	glm::mat4	MODELVIEWPROJECTION;
 
 private:
 	
 	Mesh* planeMesh;
+	Mesh* cubeMesh;
 
-	Shader* planeShader;
+	Shader* shader;
 
 };
 

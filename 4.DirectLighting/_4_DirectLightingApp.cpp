@@ -1,9 +1,7 @@
 #include "_4_DirectLightingApp.h"
-#include "Gizmos.h"
 #include "Input.h"
 
 #include <vector>
-#include <Gizmos.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <gl_core_4_4.h>
@@ -11,7 +9,6 @@
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
-using aie::Gizmos;
 using namespace glm;
 
 _4_DirectLightingApp::_4_DirectLightingApp() : mesh(0) , shader(0) {
@@ -106,54 +103,45 @@ bool _4_DirectLightingApp::startup() {
 	setBackgroundColour(0.25f, 0.25f, 0.25f);
 
 	// initialise gizmo primitive counts
-	Gizmos::create(10000, 10000, 10000, 10000);
+	//Gizmos::create(10000, 10000, 10000, 10000);
 
 	// create simple camera transforms
 	//shader->defaultload();
 
-	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 1, 0));
-	m_projectionMatrix = glm::perspective(glm::quarter_pi<float>(), 16.0f / 9.0f, 0.1f, 1000.0f);
+	m_viewMatrix = glm::lookAt(vec3(10, 10, 10), vec3(0), vec3(0, 10, 0));
+	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
+	m_worldMatrix = scale(vec3(1));
+	MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
 
 	shader = new Shader();
-	shader->load("VertShade.vert", GL_VERTEX_SHADER);
-	shader->load("phong.frag", GL_FRAGMENT_SHADER);
+	shader->load("lightVertShade.vert", GL_VERTEX_SHADER);
+	shader->load("light.frag", GL_FRAGMENT_SHADER);
 	shader->attach();
 
-	generateSphere(16, 16, mesh->m_vao, mesh->m_vbo, mesh->m_ibo, mesh->index_Count);
+	/*generateSphere(100, 100, mesh->m_vao, mesh->m_vbo, mesh->m_ibo, mesh->index_Count);*/
+	mesh->generateSphere(100, 100, mesh->m_vao, mesh->m_vbo, mesh->m_ibo, mesh->index_Count);
 
 	return true;
 }
 
 void _4_DirectLightingApp::shutdown() {
 
-	Gizmos::destroy();
+	//Gizmos::destroy();
 }
 
 void _4_DirectLightingApp::update(float deltaTime) {
 
 	// wipe the gizmos clean for this frame
-	Gizmos::clear();
+	//Gizmos::clear();
 
 	// time for application running
 	float time = getTime();
 
 	// a camera's movement to give a good enough view to observe an object positioned in the center
-	m_viewMatrix = glm::lookAt(vec3(glm::sin(time) * 20, 5, glm::cos(time) * 15), vec3(0), vec3(0, 1, 0));
-
-	// draw a simple grid with gizmos
-	vec4 white(1);
-	vec4 black(0, 0, 0, 1);
-	for (int i = 0; i < 21; ++i) {
-		Gizmos::addLine(vec3(-10 + i, 0, 10),
-			vec3(-10 + i, 0, -10),
-			i == 10 ? white : black);
-		Gizmos::addLine(vec3(10, 0, -10 + i),
-			vec3(-10, 0, -10 + i),
-			i == 10 ? white : black);
-	}
+	//m_viewMatrix = glm::lookAt(vec3(glm::sin(time) * 20, 5, glm::cos(time) * 15), vec3(0), vec3(0, 1, 0));
 
 	// add a transform so that we can see the axis
-	Gizmos::addTransform(mat4(1), 25);
+	//Gizmos::addTransform(mat4(1), 25);
 
 	// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
@@ -167,18 +155,26 @@ void _4_DirectLightingApp::draw() {
 	// wipe the screen to the background colour
 	clearScreen();
 	
-	shader->bind();
-	mesh->bind();
-	
-	int projView = shader->getUniform("projectionView");
-	glUniformMatrix4fv(projView, 1, false, &m_projectionMatrix[0][0]);
 
-	//glUseProgram(shader->m_program);
+	glUseProgram(shader->m_program);	// use shader programs
+
+	// camera bind				 
+	int loc = glGetUniformLocation(shader->m_program, "projectionViewWorldMatrix");
+	glUniformMatrix4fv(loc, 1, GL_FALSE, &MODELVIEWPROJECTION[0][0]);
+
+	/*loc = glGetUniformLocation(shader->m_program, "camera");
+	glUniform3fv(loc, 1, glm::value_ptr(MODELVIEWPROJECTION));
+
+	loc = glGetUniformLocation(shader->m_program, "specularPower");
+	glUniform1f(loc, 0);*/
+
+	// draws
+	glBindVertexArray(mesh->m_vao);
 	glDrawElements(GL_TRIANGLES, mesh->index_Count, GL_UNSIGNED_INT, 0);
-
+	glBindVertexArray(0);
 	
-	Gizmos::draw(m_projectionMatrix * m_viewMatrix);
+	glUseProgram(0);
 
-	mesh->unbind();
-	shader->unbind();
+	//Gizmos::draw(m_projectionMatrix * m_viewMatrix);
+
 }
