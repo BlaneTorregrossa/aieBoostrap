@@ -1,15 +1,9 @@
-#include "_2_CamerasAndProjectionsApp.h"
+#include "CameraApp.h"
 
-int main() {
-	
-	// allocation
-	auto app = new _2_CamerasAndProjectionsApp();
-
-	// initialise and loop
-	app->run("AIE", 1280, 720, false);
-
-	// deallocation
+int main()
+{
+	auto app = new CameraApp();
+	app->run("Camera and Render", 1280, 720, false);
 	delete app;
-
 	return 0;
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bootstrap", "bootstrap\Bootstrap.vcxproj", "{AF59BB0B-E059-4773-83DC-728A949647DA}"
 EndProject
@@ -25,6 +25,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3.RenderingGeometry", "3.RenderingGeometry\3.RenderingGeometry.vcxproj", "{02F223E5-3299-470A-9301-83C680BBB16B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "6.ProceduralGeneration", "6.ProceduralGeneration\6.ProceduralGeneration.vcxproj", "{06563229-B55E-4276-B49B-61ABCD5C9DEA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2.CamerasAndProjections", "2.CamerasAndProjections\2.CamerasAndProjections.vcxproj", "{D9C26322-FF80-411F-812B-133E8D2E94B4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1.IntroToOpenGL", "1.IntroToOpenGL\1.IntroToOpenGL.vcxproj", "{601ECC15-0A3E-4BDB-B483-1A716819586D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +88,22 @@ Global
 		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Release|x64.Build.0 = Release|x64
 		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Release|x86.ActiveCfg = Release|Win32
 		{06563229-B55E-4276-B49B-61ABCD5C9DEA}.Release|x86.Build.0 = Release|Win32
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Debug|x64.ActiveCfg = Debug|x64
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Debug|x64.Build.0 = Debug|x64
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Debug|x86.ActiveCfg = Debug|Win32
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Debug|x86.Build.0 = Debug|Win32
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Release|x64.ActiveCfg = Release|x64
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Release|x64.Build.0 = Release|x64
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Release|x86.ActiveCfg = Release|Win32
+		{D9C26322-FF80-411F-812B-133E8D2E94B4}.Release|x86.Build.0 = Release|Win32
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Debug|x64.ActiveCfg = Debug|x64
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Debug|x64.Build.0 = Debug|x64
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Debug|x86.ActiveCfg = Debug|Win32
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Debug|x86.Build.0 = Debug|Win32
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Release|x64.ActiveCfg = Release|x64
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Release|x64.Build.0 = Release|x64
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Release|x86.ActiveCfg = Release|Win32
+		{601ECC15-0A3E-4BDB-B483-1A716819586D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

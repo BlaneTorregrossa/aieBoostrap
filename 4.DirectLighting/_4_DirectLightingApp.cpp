@@ -102,13 +102,10 @@ bool _4_DirectLightingApp::startup() {
 	// Sets color of the background
 	setBackgroundColour(0.25f, 0.25f, 0.25f);
 
-	// initialise gizmo primitive counts
-	//Gizmos::create(10000, 10000, 10000, 10000);
-
 	// create simple camera transforms
 	//shader->defaultload();
 
-	m_viewMatrix = glm::lookAt(vec3(10, 10, 10), vec3(0), vec3(0, 10, 0));
+	m_viewMatrix = glm::lookAt(vec3(0, 20, -50), vec3(0), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	m_worldMatrix = scale(vec3(1));
 	MODELVIEWPROJECTION = m_projectionMatrix * m_viewMatrix * m_worldMatrix;
@@ -117,31 +114,20 @@ bool _4_DirectLightingApp::startup() {
 	shader->load("lightVertShade.vert", GL_VERTEX_SHADER);
 	shader->load("light.frag", GL_FRAGMENT_SHADER);
 	shader->attach();
-
-	/*generateSphere(100, 100, mesh->m_vao, mesh->m_vbo, mesh->m_ibo, mesh->index_Count);*/
 	mesh->generateSphere(100, 100, mesh->m_vao, mesh->m_vbo, mesh->m_ibo, mesh->index_Count);
 
 	return true;
 }
 
-void _4_DirectLightingApp::shutdown() {
-
+void _4_DirectLightingApp::shutdown() 
+{
 	//Gizmos::destroy();
 }
 
 void _4_DirectLightingApp::update(float deltaTime) {
 
-	// wipe the gizmos clean for this frame
-	//Gizmos::clear();
-
 	// time for application running
 	float time = getTime();
-
-	// a camera's movement to give a good enough view to observe an object positioned in the center
-	//m_viewMatrix = glm::lookAt(vec3(glm::sin(time) * 20, 5, glm::cos(time) * 15), vec3(0), vec3(0, 1, 0));
-
-	// add a transform so that we can see the axis
-	//Gizmos::addTransform(mat4(1), 25);
 
 	// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
@@ -155,7 +141,6 @@ void _4_DirectLightingApp::draw() {
 	// wipe the screen to the background colour
 	clearScreen();
 	
-
 	glUseProgram(shader->m_program);	// use shader programs
 
 	// camera bind				 

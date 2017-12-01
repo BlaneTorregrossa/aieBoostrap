@@ -37,8 +37,8 @@ public:
 	unsigned int m_vbo;
 	unsigned int m_ibo;
 
-	std::vector<unsigned int> m_indices;
-	std::vector<Vertex> m_verticies;
+	std::vector<unsigned int> indices;
+	std::vector<Vertex> verts;
 
 	std::vector<vec4> positions;
 	std::vector<vec4> colours;

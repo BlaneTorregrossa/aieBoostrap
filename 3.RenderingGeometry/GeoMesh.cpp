@@ -23,10 +23,10 @@ Mesh::~Mesh()
 void Mesh::genPlane()
 {
 	positions = {
-		vec4(0, 0, 0, 1),	//v2 BOTTOM LEFT
-		vec4(5, 0, 0, 1),	//v3 BOTTOM RIGHT
-		vec4(5, 0, 5, 1),	//v1 TOP RIGHT
-		vec4(0, 0, 5, 1),	//v0 TOP LEFT	
+		vec4(10, 0, 20, 1),	//v2 BOTTOM LEFT
+		vec4(20, 0, 20, 1),	//v3 BOTTOM RIGHT
+		vec4(20, 0, 10, 1),	//v1 TOP RIGHT
+		vec4(10, 0, 10, 1),	//v0 TOP LEFT	
 	};
 
 	//	Verticies information
@@ -34,14 +34,14 @@ void Mesh::genPlane()
 	{
 		Vertex v;
 		v.position = positions[i];
-		m_verticies.push_back(v);
+		verts.push_back(v);
 	}
 
 	//	Indicies information
-	m_indices =
+	indices =
 	{
-		0,1,3,
-		3,2,1
+		0,1,2,
+		0,2,3
 	};
 }
 
@@ -63,11 +63,11 @@ void Mesh::genCube()
 	{
 		Vertex v;
 		v.position = positions[i];
-		m_verticies.push_back(v);
+		verts.push_back(v);
 	}
 
 	//	Indicies information
-	m_indices =
+	indices =
 	{
 		//Bottom
 		1,5,4,
@@ -106,16 +106,16 @@ void Mesh::Create_buffers()
 	//	vertex buffer object
 	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertex_Count * sizeof(Vertex), m_verticies.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(Vertex), verts.data(), GL_STATIC_DRAW);
 
 	//	index buffer object
 	glGenBuffers(1, &m_ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_Count * sizeof(unsigned int), m_indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
 	//position
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, vertex_Count, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);		// You see that Vertex? That stays as Vertex
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);		// You see that Vertex? That stays as Vertex
 
 	//cleanup
 	glBindVertexArray(0);

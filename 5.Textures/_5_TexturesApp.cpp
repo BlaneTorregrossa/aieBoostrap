@@ -35,7 +35,7 @@ _5_TexturesApp::~_5_TexturesApp() {
 
 bool _5_TexturesApp::startup() {
 
-	setBackgroundColour(0.25f, 0.25f, 0.25f);
+	setBackgroundColour(0.25f, 0.25f, 0.45f);
 
 	// initialise gizmo primitive counts
 	Gizmos::create(10000, 10000, 10000, 10000);

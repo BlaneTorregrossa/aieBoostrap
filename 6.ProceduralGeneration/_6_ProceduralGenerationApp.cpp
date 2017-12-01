@@ -54,7 +54,6 @@ bool _6_ProceduralGenerationApp::startup() {
 	shader->load("perlinVertShade.vert", GL_VERTEX_SHADER);		// Load Vertex Shader from specified file
 	shader->load("perlinPhong.frag", GL_FRAGMENT_SHADER);		// Load Fragment Shader	from specified file
 	shader->attach();	// Attatch both shaders to the program
-	//mesh->genPlane();	// Generates a plane
 	mesh->generateGrid(100,100);	// Generate grid for the texture
 	mesh->Create_buffers();
 
