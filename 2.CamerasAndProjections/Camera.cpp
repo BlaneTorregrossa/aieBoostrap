@@ -71,6 +71,8 @@ void Camera::setOrthographic(float left, float right, float bottom, float top, f
 	float WY = -((top + bottom) / (top - bottom));
 	float WZ = -((Far + Near) / (Far - Near));
 
+	// Original setup had two matracies, shown itself as a waste and inconsistent
+
 	mat4 V = mat4(
 		vec4(X, 0, 0, 0),
 		vec4(0, Y, 0, 0),

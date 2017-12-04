@@ -6,7 +6,7 @@ int main() {
 	auto app = new _5_TexturesApp();
 
 	// initialise and loop
-	app->run("AIE", 1280, 720, false);
+	app->run("Texture", 1280, 720, false);
 
 	// deallocation
 	delete app;

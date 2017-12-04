@@ -1,5 +1,4 @@
 #include "_5_TexturesApp.h"
-#include "Gizmos.h"
 #include "Input.h"
 #include <vector>
 #include <glm/glm.hpp>
@@ -14,7 +13,6 @@ using std::vector;
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
-using aie::Gizmos;
 
 
 using namespace std;
@@ -38,7 +36,7 @@ bool _5_TexturesApp::startup() {
 	setBackgroundColour(0.25f, 0.25f, 0.45f);
 
 	// initialise gizmo primitive counts
-	Gizmos::create(10000, 10000, 10000, 10000);
+	//Gizmos::create(10000, 10000, 10000, 10000);
 
 	// create simple camera transforms
 	m_viewMatrix = glm::lookAt(vec3(10, 50, 10), vec3(0), vec3(0, 10, 0));
@@ -168,13 +166,13 @@ fragColor = texture(diffuse,vTexCoord);}";
 
 void _5_TexturesApp::shutdown() {
 
-	Gizmos::destroy();
+	//Gizmos::destroy();
 }
 
 void _5_TexturesApp::update(float deltaTime) {
 
 	// wipe the gizmos clean for this frame
-	Gizmos::clear();
+	//Gizmos::clear();
 
 	// for camera to move and rotate around the grid
 	float time = getTime();

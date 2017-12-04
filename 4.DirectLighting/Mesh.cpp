@@ -49,6 +49,7 @@ void Mesh::Create_buffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+
 void Mesh::initialize(std::vector<Vertex>& verts, std::vector<unsigned int>& indices)
 {
 	for (auto v : verts)

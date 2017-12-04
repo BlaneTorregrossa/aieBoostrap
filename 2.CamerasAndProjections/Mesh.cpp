@@ -23,10 +23,10 @@ Mesh::~Mesh()
 void Mesh::genPlane()
 {
 	positions = {
-		vec4(-5, 0, 5, 1),	//v2 BOTTOM LEFT
-		vec4(5, 0, 5, 1),	//v3 BOTTOM RIGHT
-		vec4(5, 0, -5, 1),	//v1 TOP RIGHT
-		vec4(-5, 0, -5, 1),	//v0 TOP LEFT	
+		vec4(-15, 0, -5, 1),	//v2 BOTTOM LEFT
+		vec4(-5, 0, -5, 1),		//v3 BOTTOM RIGHT
+		vec4(-5, 0, -15, 1),	//v1 TOP RIGHT
+		vec4(-15, 0, -15, 1),	//v0 TOP LEFT	
 	};
 
 	//	Verticies information

@@ -41,7 +41,7 @@ vec4 ambient = Ka * Ia;	// ambient light
 // diffuse
 // ------------------------------------------------------------------------------------------------------
 
-//L = normalize();
+L = normalize();
 N = normalize(vNormal.xyz);
 
 // dot product between the surface normal and light direction

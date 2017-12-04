@@ -18,10 +18,5 @@ public:
 		const char* ret = buffer;
 		return ret;
 	}
-	void writeIt(const char* filename, const char* write)
-	{
-		fopen_s(&fp, filename, "w");
-		fputs(write, fp);
-		fclose(fp);
-	}
+
 };
