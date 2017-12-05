@@ -1,7 +1,7 @@
 #version 410
 layout(location=0) in vec4 position; 
-layout(location=1) in vec4 normal;
-layout(location=2) in vec4 colour;
+layout(location=1) in vec4 colour;
+layout(location=2) in vec4 normal;
 layout(location=3) in vec4 tangent;
 layout(location=4) in vec4 bitangent;
 layout(location=5) in vec2 texcoord;
@@ -14,7 +14,6 @@ out vec4 vBitangent;
 out vec2 vTexCoord;
 
 uniform mat4 projectionViewWorldMatrix;
-
 
 void main(){ 
 vPosition = position;

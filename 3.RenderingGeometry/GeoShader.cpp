@@ -53,6 +53,7 @@ void Shader::attach()
 	glAttachShader(m_program, fragmentShader);
 	glLinkProgram(m_program);
 
+	// To check if shader successfully attached
 	int success = GL_FALSE;
 	glGetProgramiv(m_program, GL_LINK_STATUS, &success);
 	if (success == GL_FALSE)

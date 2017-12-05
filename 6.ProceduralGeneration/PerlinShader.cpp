@@ -76,12 +76,12 @@ void PerlinShader::genNoiseValue(float width, float height)
 {
 	perlinData = new float[width * height];
 	float scale = 0;
-	int octaves = 8;
+	int octaves = 12;
 
-	if ((1 / height) == (1 / width))
+	if (height == width)
 	{
 		scale = 1 / width;
-		scale *= 5;
+		scale = scale * 5;
 	}
 
 	for (int x = 0; x < width; x++)
@@ -95,9 +95,9 @@ void PerlinShader::genNoiseValue(float width, float height)
 			{
 				float freq = powf(2, (float)o);
 				float perlinSample = glm::perlin(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// the sample
-				float blaneNoise = blane_noise(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// to do what perlin does (FIX!!!)
-				perlinData[y * 64 + x] += perlinSample* amplitude;
-				amplitude *= persistence;
+				//float blaneNoise = blane_noise(vec2(x, y) * scale * freq) * 0.5f + 0.5f;	// to do what perlin does (FIX!!!)
+				perlinData[y * 64 + x] += perlinSample * amplitude;
+				amplitude = amplitude * persistence;
 			}
 		}
 
@@ -130,8 +130,5 @@ void PerlinShader::genPerlinTextures()
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 

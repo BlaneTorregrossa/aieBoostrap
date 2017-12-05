@@ -1,8 +1,11 @@
 #include "CameraApp.h"
+
+#include "Input.h"
 #include "Camera.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Application.h"
+
 
 #include <vector>
 #include <assert.h>
@@ -35,7 +38,7 @@ bool CameraApp::startup()
 	shader = new Shader();
 	m_camera = new Camera();
 
-	m_camera->setLookAt(vec3(50, 50, -50), vec3(0), vec3(1, 1, 1));
+	m_camera->setLookAt(vec3(0, 0, 35), vec3(0, 0, 0), vec3(0, 1, 0));
 	m_camera->setPerspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	//m_camera->setOrthographic(-5.0f, 5.0f, -5.0f, 5.0f, 0.1f, 100.0f);
 

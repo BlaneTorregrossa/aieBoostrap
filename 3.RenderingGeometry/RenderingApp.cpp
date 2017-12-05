@@ -39,9 +39,6 @@ bool RenderingApp::startup() {
 	// RGB for background color (soft blue background to make other objects in the window clear to see)
 	setBackgroundColour(0.25f, 0.25f, 0.45f);
 
-	// initialise gizmo primitive counts
-	//Gizmos::Create();
-
 	// create simple camera transforms
 	m_viewMatrix = glm::lookAt(vec3(-15, 20, 80), vec3(0), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
@@ -63,7 +60,6 @@ bool RenderingApp::startup() {
 
 void RenderingApp::shutdown() {
 
-	//Gizmos::destroy();
 }
 
 

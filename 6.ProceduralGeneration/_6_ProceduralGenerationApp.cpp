@@ -1,6 +1,5 @@
 #include "_6_ProceduralGenerationApp.h"
 
-#include "Gizmos.h"
 #include "Input.h"
 #include "PerlinMesh.h"
 #include "PerlinShader.h"
@@ -15,7 +14,6 @@ using std::vector;
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
-using aie::Gizmos;
 
 using namespace std;
 using namespace glm;
@@ -39,9 +37,6 @@ bool _6_ProceduralGenerationApp::startup() {
 	// RGB for background color (soft blue background to make other objects in the window clear to see)
 	setBackgroundColour(0.25f, 0.25f, 0.35f);
 
-	// initialise gizmo primitive counts
-	//Gizmos::Create();
-
 	// create simple camera transforms
 	m_viewMatrix = glm::lookAt(vec3(0, 100, -70), vec3(50, 0, 50), vec3(0, 1, 0));
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
@@ -62,15 +57,12 @@ bool _6_ProceduralGenerationApp::startup() {
 
 void _6_ProceduralGenerationApp::shutdown() {
 
-	//Gizmos::destroy();
 }
 
 
-glm::mat4 planeTransform = glm::mat4(1);
 void _6_ProceduralGenerationApp::update(float deltaTime) {
 
-	// wipe the gizmos clean for this frame
-	/*Gizmos::clear();*/
+
 
 	// for camera to move and rotate around the grid
 	float time = getTime();

@@ -6,7 +6,7 @@ vec4 Ia = vec4(0.25f,0.25f,0.25f,1);
 
 // diffuse KdId
 vec4 Kd = vec4(1,0,0,1);
-vec4 Id = vec4(1,1,1,1);
+vec4 Id = vec4(0.50f,0.50f,0.50f,1);
 
 // Specular KsIs
 vec4 Ks = vec4(1,0,0,1);
@@ -18,6 +18,7 @@ vec3 L; // light direction
 vec3 R; // Reflected ray
 vec3 V; // viewing vector (camera)
 vec3 N; // vNormal after being Normalized 
+
 
 in vec2 vTexCoord;
 in vec4 vBitangent;
@@ -41,7 +42,7 @@ vec4 ambient = Ka * Ia;	// ambient light
 // diffuse
 // ------------------------------------------------------------------------------------------------------
 
-L = normalize();
+L = normalize(vec3(0,-1,0));
 N = normalize(vNormal.xyz);
 
 // dot product between the surface normal and light direction
@@ -52,9 +53,8 @@ vec4 diffuse = Kd * Id * LambertDiffuseTerm;	// diffuses light
 // specular
 // ------------------------------------------------------------------------------------------------------
 
-
 R = reflect(L,N);
-V = normalize(camera.xyz - vPosition.xyz); 
+V = normalize(vec3(0,0,5) - vPosition.xyz); 
 
 float specTerm = pow( max(0.0f, dot(R,V)), specularPower);
 vec4 specular = Ks * Is * specTerm;	// specular light
@@ -63,7 +63,7 @@ vec4 specular = Ks * Is * specTerm;	// specular light
 // phong lighting
 // ------------------------------------------------------------------------------------------------------
 
-fragColour = vec4(ambient + diffuse + specular, 1);
+fragColour = vec4(ambient.xyz + diffuse.xyz + specular.xyz, 1);
 
 }
 

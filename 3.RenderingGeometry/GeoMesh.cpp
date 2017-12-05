@@ -115,7 +115,7 @@ void Mesh::Create_buffers()
 
 	//position
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);		// You see that Vertex? That stays as Vertex
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);		
 
 	//cleanup
 	glBindVertexArray(0);
