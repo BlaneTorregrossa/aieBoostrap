@@ -64,27 +64,60 @@ bool CameraApp::startup()
 	return true;
 }
 
+
+
 void CameraApp::shutdown()
 {
 }
 
 void CameraApp::update(float deltaTime)
 {
-	//double lastMouseX = 0, lastMouseY = 0, currentMouseX = 0, currentMouseY = 0, mouseDeltaX = 0, mouseDeltaY = 0;
-	//if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_TRUE)
-	//{
-	//	// assign the last cursor position
-	//	glfwGetCursorPos(m_window, &currentMouseX, &currentMouseY);	// only takes double varibles not float
+	aie::Input* input = aie::Input::getInstance();
 
-	//	 get mouse delta and set current mouse position
-	//	mouseDeltaX = currentMouseX - lastMouseX;
-	//	mouseDeltaY = currentMouseY - lastMouseY;
-	//	lastMouseX = currentMouseX;
-	//	lastMouseY = currentMouseY;
+	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
+		quit();
 
-	//	m_camera->setLookAt(vec3(eye.x + mouseDeltaX, eye.y, eye.z + mouseDeltaY), vec3(center), vec3(up));
+	int lastMouseX = 0, lastMouseY = 0, currentMouseX = 0, currentMouseY = 0, mouseDeltaX = 0, mouseDeltaY = 0;
+	
+// defaults to this
+	if (input->isMouseButtonDown(aie::INPUT_MOUSE_BUTTON_RIGHT));
+	{
+		// assign the last cursor position
+		input->getMouseXY(&currentMouseX, &currentMouseY); // only takes double varibles not float
 
-	//}
+		mouseDeltaX = currentMouseX - lastMouseX;
+		mouseDeltaY = currentMouseY - lastMouseY;
+		lastMouseX = currentMouseX;
+		lastMouseY = currentMouseY;
+
+		// Moving the mouse left or right rotates the "camera" on the x axis
+		// Moving the mouse up or down rotates the camera on the y axis.
+		m_camera->setLookAt(vec3(eye.x, eye.y, eye.z), vec3(center.x + mouseDeltaX - 30, center.y + mouseDeltaY - 30, center.z), vec3(up.x, up.y, up.z));
+		m_camera->m_viewMatrix = m_camera->m_view;
+		m_camera->MODELVIEWPROJECTION = m_camera->m_projectionMatrix * m_camera->m_viewMatrix;
+	}
+
+
+// Have to hold button unlike the other statement
+	if (input->isMouseButtonDown(aie::INPUT_MOUSE_BUTTON_LEFT))
+	{
+		// assign the last cursor position
+		input->getMouseXY(&currentMouseX, &currentMouseY); // only takes double varibles not float
+
+		mouseDeltaX = currentMouseX - lastMouseX;
+		mouseDeltaY = currentMouseY - lastMouseY;
+		lastMouseX = currentMouseX;
+		lastMouseY = currentMouseY;
+
+		// moves camera in on the center with mouse movement Forward or Back
+		// Move the camera left or right in relation to the objects shown with mouse movement
+		m_camera->setLookAt(vec3(eye.x + mouseDeltaX, eye.y, eye.z + mouseDeltaY), vec3(center.x + mouseDeltaX, center.y, center.z), vec3(up.x, up.y, up.z));
+		m_camera->m_viewMatrix = m_camera->m_view;
+		m_camera->MODELVIEWPROJECTION = m_camera->m_projectionMatrix * m_camera->m_viewMatrix;
+	}
+
+
+
 }
 
 void CameraApp::draw()

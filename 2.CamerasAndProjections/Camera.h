@@ -19,10 +19,12 @@ public:
 
 	void setLookAt(vec3 eye, vec3 center, vec3 up);
 
+	void Rotate();
+
 	mat4	m_viewMatrix;
 	mat4	m_projectionMatrix;
 	mat4	m_worldMatrix;
-	mat4 MODELVIEWPROJECTION;
+	mat4	MODELVIEWPROJECTION;
 
 	mat4 m_world;
 	mat4 m_view;

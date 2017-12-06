@@ -1,4 +1,7 @@
 #include "Camera.h"
+
+#include "Input.h"
+
 #include <assert.h>
 #include <glm\glm.hpp>
 #include <glm\ext.hpp>
@@ -61,6 +64,10 @@ void Camera::setLookAt(vec3 eye, vec3 center, vec3 up)
 	assert(m_view == m_lookAtTest);
 }
 
+void Camera::Rotate()
+{
+}
+
 void Camera::setOrthographic(float left, float right, float bottom, float top, float Near, float Far)
 {
 	float X = 2 / (right - left);
@@ -73,14 +80,14 @@ void Camera::setOrthographic(float left, float right, float bottom, float top, f
 
 	// Original setup had two matracies, shown itself as a waste and inconsistent
 
-	mat4 V = mat4(
+	mat4 O = mat4(
 		vec4(X, 0, 0, 0),
 		vec4(0, Y, 0, 0),
 		vec4(0, 0, Z, 0),
 		vec4(WX, WY, WZ, 1)
 	);
 
-	m_projection = V;
+	m_projection = O;
 	mat4 test = ortho(left, right, bottom, top, Near, Far);
 	assert(m_projection == test);
 

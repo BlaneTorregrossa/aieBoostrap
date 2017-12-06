@@ -14,6 +14,7 @@ public:
 	virtual ~CameraApp();
 
 	bool startup() override;
+	bool startupMovement();
 	void shutdown() override;
 	void update(float) override;
 	void draw() override;
