@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <assert.h>
+#include <GLFW\glfw3.h>
 #include <glm\glm.hpp>
 #include <glm/ext.hpp>
 #include <gl_core_4_4.h>
@@ -38,7 +39,11 @@ bool CameraApp::startup()
 	shader = new Shader();
 	m_camera = new Camera();
 
-	m_camera->setLookAt(vec3(0, 0, 35), vec3(0, 0, 0), vec3(0, 1, 0));
+	eye = vec3(10, 10, 35);
+	center = vec3(0, 0, 0);
+	up = vec3(0, 1, 0);
+
+	m_camera->setLookAt(eye, center, up);
 	m_camera->setPerspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 	//m_camera->setOrthographic(-5.0f, 5.0f, -5.0f, 5.0f, 0.1f, 100.0f);
 
@@ -65,7 +70,21 @@ void CameraApp::shutdown()
 
 void CameraApp::update(float deltaTime)
 {
+	//double lastMouseX = 0, lastMouseY = 0, currentMouseX = 0, currentMouseY = 0, mouseDeltaX = 0, mouseDeltaY = 0;
+	//if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_TRUE)
+	//{
+	//	// assign the last cursor position
+	//	glfwGetCursorPos(m_window, &currentMouseX, &currentMouseY);	// only takes double varibles not float
 
+	//	 get mouse delta and set current mouse position
+	//	mouseDeltaX = currentMouseX - lastMouseX;
+	//	mouseDeltaY = currentMouseY - lastMouseY;
+	//	lastMouseX = currentMouseX;
+	//	lastMouseY = currentMouseY;
+
+	//	m_camera->setLookAt(vec3(eye.x + mouseDeltaX, eye.y, eye.z + mouseDeltaY), vec3(center), vec3(up));
+
+	//}
 }
 
 void CameraApp::draw()
